@@ -13,6 +13,8 @@ import time
 from collections.abc import Callable
 from typing import Any
 
+from s1_contracts.request import ID, _depth_guard
+
 from s1router.domain.admission import TokenBucket
 
 MAX_FRAME_BYTES = 512 * 1024
@@ -26,7 +28,6 @@ METRIC_LABELS = (
     "queue_full",
     "rate_limited",
     "invalid_request",
-    "worker_not_ready",
     "cancelled",
     "provider_unavailable",
 )
@@ -40,11 +41,13 @@ def build_handle(engine: Any) -> Callable[[bytes], dict[str, Any]]:
 
 def _peek_request_id(raw: bytes) -> str | None:
     try:
-        value = json.loads(raw[:MAX_FRAME_BYTES])
+        bounded = raw[:MAX_FRAME_BYTES]
+        _depth_guard(bounded)
+        value = json.loads(bounded)
     except ValueError:
         return None
     request_id = value.get("request_id") if isinstance(value, dict) else None
-    return request_id if isinstance(request_id, str) else None
+    return request_id if isinstance(request_id, str) and ID.fullmatch(request_id) else None
 
 
 class WorkerService:
@@ -116,28 +119,24 @@ class WorkerService:
         parseable), never silently dropped and never blocking the caller.
         """
         with self._state_lock:
-            if not self._ready:
-                self._reject(raw, "worker_not_ready")
-                return False
-            if self._stopping:
-                self._reject(raw, "cancelled")
-                return False
-            if len(raw) > MAX_FRAME_BYTES:
-                self._reject(raw, "input_too_long")
-                return False
-            if self._queue.full():
-                self._reject(raw, "queue_full")
-                return False
-            if not self._bucket.allow():
-                self._reject(raw, "rate_limited")
-                return False
-            try:
-                self._queue.put_nowait(raw)
-            except queue.Full:
-                self._reject(raw, "queue_full")
-                return False
-            self._count("accepted")
-            return True
+            if not self._ready or self._stopping:
+                reason = "cancelled"
+            elif len(raw) > MAX_FRAME_BYTES:
+                reason = "input_too_long"
+            elif self._queue.full():
+                reason = "queue_full"
+            elif not self._bucket.allow():
+                reason = "rate_limited"
+            else:
+                try:
+                    self._queue.put_nowait(raw)
+                except queue.Full:
+                    reason = "queue_full"
+                else:
+                    self._counts["accepted"] += 1
+                    return True
+        self._reject(raw, reason)
+        return False
 
     def shutdown(self) -> None:
         """Signal the worker loop to stop once pending frames are drained."""
@@ -184,14 +183,15 @@ class WorkerService:
                 "error": {
                     "code": code,
                     "message": code.replace("_", " "),
-                    "retryable": code not in {"cancelled", "worker_not_ready", "invalid_request"},
+                    "retryable": code not in {"cancelled", "invalid_request"},
                 },
             }
         )
 
     def _count(self, label: str) -> None:
-        if label in self._counts:
-            self._counts[label] += 1
+        with self._state_lock:
+            if label in self._counts:
+                self._counts[label] += 1
 
     def _emit(self, value: dict[str, Any]) -> None:
         with self._write_lock:

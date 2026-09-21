@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 646,
+  "revision": 737,
   "next_id": 24,
   "items": [
     {
@@ -415,7 +415,7 @@
     {
       "id": "FEAT-005",
       "type": "FEAT",
-      "title": "L2 resident local model and calibrated acceptance",
+      "title": "L2 experimental local inference and calibration binding",
       "requirements": [
         "R-003",
         "R-004",
@@ -433,13 +433,13 @@
         "design": "Domain-pure capability admission (R-003) and artifact-bound calibration gate (R-004) reuse L1 hexagonal domain boundaries; M-005 sparse-softmax numerics isolated behind the inference port. No new I/O or ML dependency introduced into domain layer.",
         "deploy": "Resolved: make deploy-local now produces a real verified snapshot containing contracts+router+model together (BUG-015), and a clean-env repro (env -i, no PYTHONPATH) of the installed launcher succeeds. R-003/R-004/M-005's domain logic ships inside that same current snapshot, not the old L1-only one this note previously (correctly) disclaimed.",
         "observe": "Covered by existing router/model telemetry (L1-004); no scoped-card-specific production observation exists yet since these are library-level domain gates, not a standalone service.",
-        "maintain": "No production incidents. Remaining maintenance risk: sparse baseline is explicitly experimental_fixture (not release-eligible); calibration profiles require real trained/calibrated artifacts before any acceptance can be trusted in production."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed existing-scope fixes and corrected full-product claims; 256 product tests passed, coverage gates passed. See docs/engineering/review-2026-09-21.md; no model promotion or deferred-layer completion."
         }
       ],
       "history": [
@@ -783,6 +783,47 @@
           "at": "2026-09-21T02:13:29.547Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:04:45.065Z",
+          "action": "move:ready",
+          "note": "Reviewed existing-scope fixes and corrected full-product claims; 256 product tests passed, coverage gates passed. See docs/engineering/review-2026-09-21.md; no model promotion or deferred-layer completion."
+        },
+        {
+          "at": "2026-09-21T06:04:45.157Z",
+          "action": "evidence:replace",
+          "note": "Reviewed existing-scope fixes and corrected full-product claims; 256 product tests passed, coverage gates passed. See docs/engineering/review-2026-09-21.md; no model promotion or deferred-layer completion.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:04:45.251Z",
+          "action": "stage:maintain",
+          "note": "Reviewed existing-scope fixes and corrected full-product claims; 256 product tests passed, coverage gates passed. See docs/engineering/review-2026-09-21.md; no model promotion or deferred-layer completion."
+        },
+        {
+          "at": "2026-09-21T06:04:45.323Z",
+          "action": "move:in_progress",
+          "note": "Reviewed existing-scope fixes and corrected full-product claims; 256 product tests passed, coverage gates passed. See docs/engineering/review-2026-09-21.md; no model promotion or deferred-layer completion."
+        },
+        {
+          "at": "2026-09-21T06:04:45.392Z",
+          "action": "move:review",
+          "note": "Reviewed existing-scope fixes and corrected full-product claims; 256 product tests passed, coverage gates passed. See docs/engineering/review-2026-09-21.md; no model promotion or deferred-layer completion."
+        },
+        {
+          "at": "2026-09-21T06:04:45.582Z",
+          "action": "update",
+          "note": "Review correction: model is loaded in each bounded child attempt, not warm resident inference; no trained release is certified."
+        },
+        {
+          "at": "2026-09-21T06:05:11.069Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.155Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -807,13 +848,13 @@
         "test": "Verified mechanically: check_test_report(selected={R-006,R-007,R-008}) passes against the real product test run (109/109 passing); traceability.json code/tests references independently reconciled, not carried over from stale draft. make check green.",
         "deploy": "Ships inside the same locally-deployed router package as FEAT-001/FEAT-005; no separate deployable artifact for this card.",
         "observe": "Covered by existing L1-004 telemetry; no dedicated production observation window for this card yet.",
-        "maintain": "No incidents. LocalJev conformance (part of this card's title) remains unclaimed: no upstream router code was integrated (inspiration only, per SPIKE-003/SPIKE-010); this card closes only the R-006/R-007/R-008 acceptance, not a conformance claim."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -1106,6 +1147,37 @@
           "at": "2026-09-21T02:13:29.713Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.527Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:09.042Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:11.232Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.303Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.374Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.447Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -1393,19 +1465,9 @@
         "test": "125 product tests pass (tests/product/test_worker_service.py, test_worker_cli.py, test_audit_sink.py): frame-size bound, queue-full determinism, readiness gated on smoke test, shutdown drains pending frames, handler-failure isolation with no raw-state logging, SIGTERM stops intake promptly, CLI-vs-SDK output parity, stdout/stderr separation. Mechanically verified via check_test_report against docs/traceability.json; overall coverage 92.06% line / >=85% branch.",
         "deploy": "s1 worker ships inside the same s1router CLI package; no separate deployable artifact. Requires an operator-supplied --model path (an s1m artifact bundle from 'active/'); no trained/installed model exists in this repo yet (M-001-M-004/M-008/M-011-M-013 remain planned), so the command is real and gate-verified against fixture bundles but not yet exercised against a production artifact.",
         "observe": "No dedicated production observation window: this is a new local worker entrypoint, not yet run in a deployed environment. Startup/readiness/shutdown are observable via stderr log lines (worker_start_failed:<Type>, frame_error:<Type>, worker_stopped); decisions are audited via FileAuditSink (adapters/audit.py), separate from the existing L1-004 EventStore used by s1 decide/observe.",
-        "maintain": "No incidents. Known follow-on gaps, tracked as future work rather than silently absorbed into this card: 's1 model install ARTIFACT_REF' (spec-named, not yet built) to populate --model in production; no policy-file validation CLI (s1 policy validate FILE, also spec-named, not yet built); provider.capabilities-is-None branch in worker_cli.build_router is defensive/unreachable via LocalProvider's public constructor and intentionally left uncovered, consistent with similar defensive branches elsewhere in the codebase."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
-        {
-          "path": "packages/router/src/s1router/adapters/worker.py",
-          "sha256": "14b2bc292aa3789d150f138e65073c7e945097f44116c66ddb4f2bb9062429bb",
-          "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
-        },
-        {
-          "path": "packages/router/src/s1router/adapters/worker_cli.py",
-          "sha256": "624af32d84f9ee8f29b03a1ce2b3f35409d1d3e5f1bb5231d24908ad702a70b7",
-          "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
-        },
         {
           "path": "packages/router/src/s1router/adapters/audit.py",
           "sha256": "7f1d05cf92f57752fb46d7f60be35e6bd628ac205836f41d3829056314dc58cf",
@@ -1417,14 +1479,24 @@
           "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
         },
         {
+          "path": "packages/router/src/s1router/adapters/worker.py",
+          "sha256": "25dd5bafff23211ab8d8d7da46bc92eecd95de0415ce13d026add59f8d8d8db3",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "path": "packages/router/src/s1router/adapters/worker_cli.py",
+          "sha256": "deb4899e01eb2a0d57e161f6eadfdefdb05cd6fea5e3bf892b91561ae6c8d5b2",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
           "path": "docs/decisions.md",
-          "sha256": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86",
-          "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
+          "sha256": "d44880436eede5b239ec571a5b79a07acb7cc89960e163ed16dfe83c621c5d63",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -1770,6 +1842,55 @@
           "at": "2026-09-21T02:13:29.885Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.606Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:09.113Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "14b2bc292aa3789d150f138e65073c7e945097f44116c66ddb4f2bb9062429bb"
+        },
+        {
+          "at": "2026-09-21T06:05:09.192Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "624af32d84f9ee8f29b03a1ce2b3f35409d1d3e5f1bb5231d24908ad702a70b7"
+        },
+        {
+          "at": "2026-09-21T06:05:09.273Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86"
+        },
+        {
+          "at": "2026-09-21T06:05:09.353Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:11.533Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.610Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.686Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.762Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -1793,7 +1914,7 @@
         "test": "7 new tests in tests/product/test_cli_model_and_policy.py cover: valid/invalid policy files, unreadable policy file, successful install+active pointer verification, corrupt bundle, missing source, and an unusable --root target. 132/132 product tests pass; check_test_report(selected={R-002,R-010}) passes; coverage 92.21% line / >=85% branch.",
         "deploy": "Ships inside the same s1router CLI package as FEAT-011's s1 worker; no separate deployable artifact. Lets an operator go from a built s1m bundle to a running s1 worker without writing Python: s1 model install SOURCE --root PATH, then s1 worker --model PATH.",
         "observe": "No dedicated production observation window; these are one-shot operator commands, not long-running services. Errors are reported as typed JSON on stdout with the standard exit codes (0/2/4), consistent with decide/doctor/worker.",
-        "maintain": "No incidents. s1 replay RECORD --state FILE (R-008) remains the one named CLI-surface command still unbuilt; tracked as a follow-on card, not silently folded into this one."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
         {
@@ -1808,13 +1929,13 @@
         },
         {
           "path": "docs/decisions.md",
-          "sha256": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86",
-          "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
+          "sha256": "d44880436eede5b239ec571a5b79a07acb7cc89960e163ed16dfe83c621c5d63",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -2105,6 +2226,43 @@
           "at": "2026-09-21T02:13:30.074Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.683Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:09.437Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86"
+        },
+        {
+          "at": "2026-09-21T06:05:09.523Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:11.846Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.918Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:11.991Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.062Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -2127,7 +2285,7 @@
         "test": "8 new tests in tests/product/test_replay.py: pure hash-match/mismatch, malformed-record rejection, and CLI-level full-verification/missing-input/policy-mismatch/malformed-record/missing-files paths against a real Router-produced audit record. 141/141 product tests pass; check_test_report(selected={R-008}) passes; coverage 92.29% line / >=85% branch.",
         "deploy": "Ships inside the same s1router CLI package as FEAT-011/FEAT-012; no separate deployable artifact. Completes spec's named CLI surface: decide, doctor, observe, worker, policy validate, model install, replay are all now real commands.",
         "observe": "One-shot operator command, not a long-running service; no dedicated observation window. Report is deterministic JSON on stdout with the standard exit codes.",
-        "maintain": "No incidents. Deliberately does not and cannot re-execute a decision from a record: redacted records never carry raw state, matching design.md's explicit warning against pretending a hash reconstructs input. Not scoped: any record-lookup-by-reference convenience (operator currently extracts one line from audit.jsonl by hand)."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
         {
@@ -2141,19 +2299,19 @@
           "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
         },
         {
-          "path": "docs/decisions.md",
-          "sha256": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86",
-          "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
-        },
-        {
           "path": "tests/product/test_replay.py",
           "sha256": "844e9172765d513da130558ed305e33034840584b63dc3c15c07f702b08a3489",
           "note": "Hash refreshed after BUG-015 hardening pass touched this file; card stays ready pending BUG-015 re-verification."
         },
         {
+          "path": "docs/decisions.md",
+          "sha256": "d44880436eede5b239ec571a5b79a07acb7cc89960e163ed16dfe83c621c5d63",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -2412,6 +2570,43 @@
           "at": "2026-09-21T02:13:30.252Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.758Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:09.597Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86"
+        },
+        {
+          "at": "2026-09-21T06:05:09.675Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:12.142Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.223Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.305Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.383Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -2433,7 +2628,7 @@
         "test": "Mechanically re-verified this session: check_test_report(selected={R-011,R-012}) against the current 141-test product suite passes; all listed test node IDs exist, pass, and carry the correct requirement marker with at least one behavioral test each.",
         "deploy": "Ships inside the same s1router package as everything else; no separate deployable artifact. Nothing changes for an operator.",
         "observe": "Covered by existing product test suite; circuit breaker state has no dedicated production dashboard yet (out of scope for this bookkeeping card).",
-        "maintain": "No incidents. This card exists only to give already-implemented, already-verified work a kanban record independent of FEAT-007/FEAT-008's data-blocked L4/L5 scope. FEAT-008 is being narrowed to just its M-013 slice in the same pass."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
         {
@@ -2448,8 +2643,8 @@
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -2686,6 +2881,37 @@
           "at": "2026-09-21T02:13:30.428Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.830Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:09.753Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:12.469Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.548Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.630Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.709Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -2702,15 +2928,15 @@
       ],
       "dependencies": [],
       "owner": "s1-delivery-coordinator",
-      "status": "done",
+      "status": "review",
       "stages": {
         "plan": "Owner authorized fixes after read-only review. R-009/R-010/R-011/M-009/M-010: clean deployment, bounded intake, real SIGTERM, readiness, rate limiting, pointer containment, honest operational evidence.",
         "design": "Root causes: (1) installed launcher's sys.path omitted the model package; (2) worker stdio read a full line before bounding size and never checked shutdown while idle; (3) submit() silently queued frames after shutdown instead of rejecting; (4) readiness smoke test checked response shape, not actual prediction success; (5) TokenBucket existed but was never wired into the worker's admission path; (6) bundle pointer validation didn't distinguish a malicious symlink from an ordinary occupied path, and later broke rollback; (7) replay's record parser accepted malformed schema/type/hash fields.",
-        "build": "Fixes: launcher sys.path now includes contracts+router+model (deployment.py). worker_stream.py reads bounded chunks via select()+Event, no more unbounded readline, idle+SIGTERM now returns promptly. WorkerService.submit() rejects post-shutdown frames as cancelled and wires TokenBucket directly into admission (R-011 now enforced in the real path, not just the isolated limiter). worker_cli.smoke_test() now runs one real decide() and checks prediction status==predicted before publishing readiness. bundle.py's locked() now separates symlink-corruption from an ordinary occupied root (I fixed a regression here: the first version misreported occupied-root as artifact_corrupt/exit 2 instead of spec's input_unavailable/exit 4). s1_contracts/audit.py's load_record() now strictly validates schema/hash-format/status/reason before replay will touch a record.",
-        "test": "182 product tests passing, 1 honestly skipped (s1m.data/M-002/M-003 has no implementation, only a stub test file and a research doc -- left skipped rather than faked). Added tests/product/test_hardening_gaps.py to close a coverage regression the fixes introduced (89.82% -> 90.72%): WorkerService capacity/cancelled-start/queue-full-race/sentinel/_valid_smoke branches, ProviderFailure's own guard, and attempt()'s budget-exhausted/invalid-configuration/broken-breaker fault injection. make check (lint, types, architecture, kanban-check, foundation, tooling coverage) is fully green. make ci still fails, expected: it requires every traceability requirement implemented, and R-013 plus the M-series items blocked on real training data/licensing/hardware are still honestly 'planned'.",
-        "deploy": "make deploy-local succeeded: real verified snapshot at .local/s1/releases/<hash> containing contracts+router+model (not just 10 router files, per the review's exact complaint). Reproduced the review's own repro directly: env -i (no PYTHONPATH at all) .local/s1/bin/s1 doctor -> {\"status\":\"ready\",...}. Confirmed fixed, not just claimed.",
-        "observe": "make local-smoke passed from a temporary working directory (installed-command smoke). make local-status verified the active release. Observation window currently insufficient_data (4 synthetic events) -- no production SLO claim made.",
-        "maintain": "Follow-on discipline adopted for future work: clean-env deploy test, real-inference smoke test, adversarial worker tests (idle+SIGTERM, oversized-line, post-shutdown submit), and rollback-after-redirect test are now permanent regression tests (test_local_deployment.py, test_worker_cli.py, test_worker_service.py, test_local_model.py) rather than one-off manual checks. Any future evidence-hash refresh on a done card must re-run deploy/observe for the touched capability, not just replace the hash."
+        "build": "Fixed worker rejection/signal lifecycle and attempt completion; corrected existing data/report validation. FEAT-007/008 untouched.",
+        "test": "256 product tests pass; 93.91% lines, 85.81% branches, strict domain gates pass. Full CI intentionally fails unmet M-004 and other deferred requirements.",
+        "deploy": "Clean installed launcher and real subprocess deployment smoke tested in isolated temporary installations; no persistent release promoted.",
+        "observe": "Observed real worker startup/SIGTERM/oversize framing and 10000-request router latency p95 0.1762 ms. No model-quality claim.",
+        "maintain": "Review findings and remaining acceptance gaps recorded in docs/engineering/review-2026-09-21.md; deferred model lifecycle cards reopened."
       },
       "evidence": [
         {
@@ -2719,19 +2945,9 @@
           "note": "clean-deploy launcher path fix"
         },
         {
-          "path": "packages/router/src/s1router/adapters/worker.py",
-          "sha256": "14b2bc292aa3789d150f138e65073c7e945097f44116c66ddb4f2bb9062429bb",
-          "note": "shutdown/rate-limit wiring"
-        },
-        {
           "path": "packages/router/src/s1router/adapters/worker_stream.py",
           "sha256": "1fe55854e0a71dfee6398414ba197428a2f2c0a5f6368a61e007cad42d900c2e",
           "note": "bounded, signal-aware framing"
-        },
-        {
-          "path": "packages/router/src/s1router/adapters/worker_cli.py",
-          "sha256": "624af32d84f9ee8f29b03a1ce2b3f35409d1d3e5f1bb5231d24908ad702a70b7",
-          "note": "real-inference smoke test"
         },
         {
           "path": "packages/model/src/s1m/artifacts/bundle.py",
@@ -2749,9 +2965,24 @@
           "note": "coverage-gap-closing adversarial tests I added"
         },
         {
+          "path": "packages/router/src/s1router/adapters/worker.py",
+          "sha256": "25dd5bafff23211ab8d8d7da46bc92eecd95de0415ce13d026add59f8d8d8db3",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "path": "packages/router/src/s1router/adapters/worker_cli.py",
+          "sha256": "deb4899e01eb2a0d57e161f6eadfdefdb05cd6fea5e3bf892b91561ae6c8d5b2",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "path": "docs/engineering/review-2026-09-21.md",
+          "sha256": "cec5ddfa41a2eb6f0ecb543c3074d2f6618f39c24b987ee034694633fb790c5b",
+          "note": "Added actual final make check, make ci and release-precondition outcomes; repairs remain in review, full release blocked."
         }
       ],
       "history": [
@@ -2989,6 +3220,75 @@
           "at": "2026-09-21T02:13:30.598Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T05:57:30.741Z",
+          "action": "move:ready",
+          "note": "Existing-runtime review reproduced rejection deadlock, invalid identifier echo, and tentative answer surviving completion failure; reopen for hardening. FEAT-007/008 deferred."
+        },
+        {
+          "at": "2026-09-21T05:57:30.817Z",
+          "action": "move:in_progress",
+          "note": ""
+        },
+        {
+          "at": "2026-09-21T06:05:09.837Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "14b2bc292aa3789d150f138e65073c7e945097f44116c66ddb4f2bb9062429bb"
+        },
+        {
+          "at": "2026-09-21T06:05:09.915Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "624af32d84f9ee8f29b03a1ce2b3f35409d1d3e5f1bb5231d24908ad702a70b7"
+        },
+        {
+          "at": "2026-09-21T06:05:09.996Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:40.928Z",
+          "action": "stage:build",
+          "note": "Fixed worker rejection/signal lifecycle and attempt completion; corrected existing data/report validation. FEAT-007/008 untouched."
+        },
+        {
+          "at": "2026-09-21T06:05:41.002Z",
+          "action": "stage:test",
+          "note": "256 product tests pass; 93.91% lines, 85.81% branches, strict domain gates pass. Full CI intentionally fails unmet M-004 and other deferred requirements."
+        },
+        {
+          "at": "2026-09-21T06:05:41.081Z",
+          "action": "stage:deploy",
+          "note": "Clean installed launcher and real subprocess deployment smoke tested in isolated temporary installations; no persistent release promoted."
+        },
+        {
+          "at": "2026-09-21T06:05:41.175Z",
+          "action": "stage:observe",
+          "note": "Observed real worker startup/SIGTERM/oversize framing and 10000-request router latency p95 0.1762 ms. No model-quality claim."
+        },
+        {
+          "at": "2026-09-21T06:05:41.287Z",
+          "action": "stage:maintain",
+          "note": "Review findings and remaining acceptance gaps recorded in docs/engineering/review-2026-09-21.md; deferred model lifecycle cards reopened."
+        },
+        {
+          "at": "2026-09-21T06:05:41.396Z",
+          "action": "evidence",
+          "note": "Semantic review distinguishes tested hardening from outstanding full-product acceptance."
+        },
+        {
+          "at": "2026-09-21T06:05:41.477Z",
+          "action": "move:review",
+          "note": "Ready for review of scoped repairs; no full-product production-readiness approval."
+        },
+        {
+          "at": "2026-09-21T06:06:30.889Z",
+          "action": "evidence:replace",
+          "note": "Added actual final make check, make ci and release-precondition outcomes; repairs remain in review, full release blocked.",
+          "previous_sha256": "ba656ca28e16cf3d2f47857b7c635389723a21a33df041d92f712668c50f97b3"
         }
       ]
     },
@@ -3010,33 +3310,33 @@
         "test": "189 product tests passing, 0 skipped (the former M-002/M-003 skip is gone). Coverage 90.58%. ruff/mypy/architecture clean. Mechanically re-verified via check_test_report against {M-002, M-003} myself, independently of the subagent's own report.",
         "deploy": "Ships inside the same s1m package as the rest of the model lifecycle; no separate deployable artifact. Not release-eligible on its own -- there is still no real licensed dataset to run it against; this closes the code/logic gap, not the data-acquisition gap.",
         "observe": "No production observation surface; this is library-level data-governance logic exercised only by its own test suite so far.",
-        "maintain": "Remaining real work, unchanged and still needs the user: acquiring and licensing an actual dataset to run this pipeline against. The code correctly rejects/validates/splits, but nothing has ingested real data yet."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
-        {
-          "path": "packages/model/src/s1m/data/validation.py",
-          "sha256": "bbf1bb97f8cfa1f80ccf78213a1749053fc5fcc67811b9072a9b3232f65d89d3",
-          "note": "M-002 field/label/adjudication-status validation"
-        },
         {
           "path": "packages/model/src/s1m/data/review.py",
           "sha256": "07adc73be699252189bc3ca02445cee9fc3a375904af8d5d08446d27756f86f9",
           "note": "M-002 reviewer packet + adjudication merge"
         },
         {
+          "path": "packages/model/src/s1m/data/validation.py",
+          "sha256": "e4cc72c52f33ccd8618668c165e709d5928edaecc18118d4f1e9fbfb97e043e3",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
           "path": "packages/model/src/s1m/data/split.py",
-          "sha256": "706fc58458537b52c715ef9a7ea917aa5a550a09b4f11c4f6bc3527454a77dd5",
-          "note": "M-003 deterministic split + leakage detection"
+          "sha256": "f6d71505c811445235114b6b6a15ef2d0b87b2b4030763d0239ace8d031d78f7",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         },
         {
           "path": "tests/product/test_model_data.py",
-          "sha256": "cce0723f26fd466464502e5e94c757f44f39035023c7a929e6dc05e370ea07ef",
-          "note": "M-002/M-003 behavioral tests"
+          "sha256": "ccf3d0bd6c10da343f1d07bf6a2446088c4a42560972c77226bc03f60177bfd0",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -3207,6 +3507,55 @@
           "at": "2026-09-21T02:13:30.772Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.901Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:10.072Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "bbf1bb97f8cfa1f80ccf78213a1749053fc5fcc67811b9072a9b3232f65d89d3"
+        },
+        {
+          "at": "2026-09-21T06:05:10.146Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "706fc58458537b52c715ef9a7ea917aa5a550a09b4f11c4f6bc3527454a77dd5"
+        },
+        {
+          "at": "2026-09-21T06:05:10.222Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "cce0723f26fd466464502e5e94c757f44f39035023c7a929e6dc05e370ea07ef"
+        },
+        {
+          "at": "2026-09-21T06:05:10.302Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:12.796Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.878Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:12.958Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:13.086Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -3227,7 +3576,7 @@
         "test": "tests/product/test_task_identity.py: idempotent identical redefinition; rejects reordered support, renamed support option, altered instructions under same identity; accepts new task_version for altered content. 194 product tests pass, mechanically verified via check_test_report for M-001.",
         "deploy": "No deployment surface change -- pure domain guard inside Capabilities construction, exercised by existing CLI/worker paths that build Capabilities.",
         "observe": "make check green (lint, types, architecture, coverage 90.63%); make ci evidence check for M-001 passes via check_test_report.",
-        "maintain": "M-001 marked implemented in docs/traceability.json with code/tests evidence; baseline refreshed."
+        "maintain": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
       },
       "evidence": [
         {
@@ -3242,8 +3591,8 @@
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -3378,6 +3727,37 @@
           "at": "2026-09-21T02:13:30.944Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:05:08.971Z",
+          "action": "move:ready",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:10.387Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:13.178Z",
+          "action": "stage:maintain",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:13.260Z",
+          "action": "move:in_progress",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:13.341Z",
+          "action": "move:review",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
+          "at": "2026-09-21T06:05:13.429Z",
+          "action": "move:done",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ]
     },
@@ -3390,7 +3770,7 @@
       ],
       "dependencies": [],
       "owner": "s1-model-engineer",
-      "status": "done",
+      "status": "blocked",
       "stages": {
         "plan": "Design reviewed against M-004 acceptance text in docs/traceability.json.",
         "design": "Pure validation/aggregation function(s) in packages/model/src/s1m/reporting/training_report.py, honest about fixture-only scope.",
@@ -3408,8 +3788,8 @@
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -3513,6 +3893,22 @@
           "at": "2026-09-21T02:13:31.119Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:03:33.638Z",
+          "action": "move:ready",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:03:33.710Z",
+          "action": "move:blocked",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:05:10.472Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
         }
       ]
     },
@@ -3525,7 +3921,7 @@
       ],
       "dependencies": [],
       "owner": "s1-model-engineer",
-      "status": "done",
+      "status": "blocked",
       "stages": {
         "plan": "Design reviewed against M-007 acceptance text in docs/traceability.json.",
         "design": "Pure validation/aggregation function(s) in packages/model/src/s1m/calibration/fit.py, honest about fixture-only scope.",
@@ -3543,8 +3939,8 @@
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -3648,6 +4044,22 @@
           "at": "2026-09-21T02:13:31.290Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:03:33.780Z",
+          "action": "move:ready",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:03:33.850Z",
+          "action": "move:blocked",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:05:10.550Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
         }
       ]
     },
@@ -3660,7 +4072,7 @@
       ],
       "dependencies": [],
       "owner": "s1-model-engineer",
-      "status": "done",
+      "status": "blocked",
       "stages": {
         "plan": "Design reviewed against M-008 acceptance text in docs/traceability.json.",
         "design": "Pure validation/aggregation function(s) in packages/model/src/s1m/reporting/eval_report.py, honest about fixture-only scope.",
@@ -3673,13 +4085,13 @@
       "evidence": [
         {
           "path": "packages/model/src/s1m/reporting/eval_report.py",
-          "sha256": "6fb2170291f0a0e89fb9da1ee79b98c29b069d6447a41e66f844bad9a98d953d",
-          "note": "M-008 implementation"
+          "sha256": "6cf5b6f23a4957c6a20e051ed0a853910a3080c108658ae2cd48416ec6270a27",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -3783,6 +4195,28 @@
           "at": "2026-09-21T02:13:31.468Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:03:33.923Z",
+          "action": "move:ready",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:03:33.994Z",
+          "action": "move:blocked",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:05:10.625Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "6fb2170291f0a0e89fb9da1ee79b98c29b069d6447a41e66f844bad9a98d953d"
+        },
+        {
+          "at": "2026-09-21T06:05:10.703Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
         }
       ]
     },
@@ -3795,7 +4229,7 @@
       ],
       "dependencies": [],
       "owner": "s1-model-engineer",
-      "status": "done",
+      "status": "blocked",
       "stages": {
         "plan": "Design reviewed against M-011 acceptance text in docs/traceability.json.",
         "design": "Pure validation/aggregation function(s) in packages/model/src/s1m/artifacts/release_identity.py, honest about fixture-only scope.",
@@ -3813,8 +4247,8 @@
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -3918,6 +4352,22 @@
           "at": "2026-09-21T02:13:31.643Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:03:34.066Z",
+          "action": "move:ready",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:03:34.139Z",
+          "action": "move:blocked",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:05:10.780Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
         }
       ]
     },
@@ -3930,7 +4380,7 @@
       ],
       "dependencies": [],
       "owner": "s1-model-engineer",
-      "status": "done",
+      "status": "blocked",
       "stages": {
         "plan": "Design reviewed against M-012 acceptance text in docs/traceability.json.",
         "design": "Pure validation/aggregation function(s) in packages/model/src/s1m/reporting/model_card.py, honest about fixture-only scope.",
@@ -3948,8 +4398,8 @@
         },
         {
           "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "Refreshed after R-013 marked implemented."
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -4053,6 +4503,22 @@
           "at": "2026-09-21T02:13:31.812Z",
           "action": "move:done",
           "note": "Re-closed: R-013 traceability.json evidence refresh only, no functional change to this card's scope."
+        },
+        {
+          "at": "2026-09-21T06:03:34.210Z",
+          "action": "move:ready",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:03:34.282Z",
+          "action": "move:blocked",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:05:10.855Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
         }
       ]
     },
@@ -4065,7 +4531,7 @@
       ],
       "dependencies": [],
       "owner": "s1-router-engineer",
-      "status": "done",
+      "status": "blocked",
       "stages": {
         "plan": "Split R-013's 4 acceptance clauses; confirmed L1-006 deployment rollback is distinct from a needed router-level fallback/recovery drill.",
         "design": "Reuse existing Router/attempt/breaker composition and FakeProvider pattern; no new production code needed, only deeper end-to-end drills.",
@@ -4077,19 +4543,19 @@
       },
       "evidence": [
         {
-          "path": "docs/traceability.json",
-          "sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
-          "note": "R-013 status=implemented with code/tests evidence"
-        },
-        {
           "path": "tests/product/test_provider_outage_and_rollback.py",
           "sha256": "82d8c58e44e1a8176bc4bc9d2b84abe87ceee65d99abf34bcf047c3163e7076d",
           "note": "outage and rollback drills"
         },
         {
+          "path": "docs/traceability.json",
+          "sha256": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
+        },
+        {
           "path": "tests/product/test_router_overhead.py",
-          "sha256": "c1ad3b2dc56a18e2b3899805888caf3ce8e045823a65435ba6deb45584a843e8",
-          "note": "measured overhead harness"
+          "sha256": "0a2eeb64053ec225cd2b3faedce2c79f6a6cb0ba5952afc959fb01e4191307ac",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete."
         }
       ],
       "history": [
@@ -4172,6 +4638,28 @@
           "at": "2026-09-21T02:13:53.069Z",
           "action": "move:done",
           "note": "R-013 done: all 4 acceptance clauses honestly satisfied with real evidence, not just narrated."
+        },
+        {
+          "at": "2026-09-21T06:03:34.353Z",
+          "action": "move:ready",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:03:34.425Z",
+          "action": "move:blocked",
+          "note": "Semantic review: helper tests do not satisfy full requirement acceptance; see docs/engineering/review-2026-09-21.md. Deferred layers are not implemented."
+        },
+        {
+          "at": "2026-09-21T06:05:10.926Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a"
+        },
+        {
+          "at": "2026-09-21T06:05:10.997Z",
+          "action": "evidence:replace",
+          "note": "Reviewed runtime fixes and corrected full-product claims: docs/engineering/review-2026-09-21.md. 256 tests and coverage gates pass; deferred acceptance remains incomplete.",
+          "previous_sha256": "c1ad3b2dc56a18e2b3899805888caf3ce8e045823a65435ba6deb45584a843e8"
         }
       ]
     }

@@ -139,7 +139,8 @@ def test_worker_cli_stops_reading_promptly_once_signalled(tmp_path: Path, monkey
 
     def fire_immediately(sig: int, handler: Any) -> Any:
         registered = real_signal(sig, handler)
-        handler(sig, None)
+        if callable(handler) and handler.__name__ == "stop":
+            handler(sig, None)
         return registered
 
     monkeypatch.setattr(signal, "signal", fire_immediately)

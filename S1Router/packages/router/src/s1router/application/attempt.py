@@ -107,14 +107,14 @@ def attempt(
             selected = prediction["selected_id"]
             reason = accept(question, prediction, provider.calibration, now=wall_clock())
             status = "answered_local"
+        breaker.record_success(permit)
+        permit = None
         item.update(
             status=status if reason is None else "review_required",
             selected_id=selected if reason is None else None,
             prediction=prediction,
             reason=reason,
         )
-        breaker.record_success(permit)
-        permit = None
     except ProviderFailure as exc:
         item.update(status="review_required", selected_id=None, prediction=None, reason=exc.code)
         if permit is not None:

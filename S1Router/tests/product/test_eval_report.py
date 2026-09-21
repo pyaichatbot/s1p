@@ -3,21 +3,14 @@
 from __future__ import annotations
 
 import hashlib
-from collections import Counter
 from dataclasses import replace
 from typing import Any
 
 import pytest
+import s1m.data.split as _split
+import s1m.data.validation as _validation
+import s1m.reporting.eval_report as _eval_report
 
-_eval_report = pytest.importorskip(
-    "s1m.reporting.eval_report", reason="M-008 reporting module not yet implemented"
-)
-_split = pytest.importorskip(
-    "s1m.data.split", reason="M-002/M-003 split module not yet implemented"
-)
-_validation = pytest.importorskip(
-    "s1m.data.validation", reason="M-002/M-003 validation module not yet implemented"
-)
 EvalReportError = _eval_report.EvalReportError
 Outcome = _eval_report.Outcome
 build_eval_report = _eval_report.build_eval_report
@@ -32,7 +25,7 @@ def digest(value: str) -> str:
     return hashlib.sha256(value.encode()).hexdigest()
 
 
-def record(number: int, *, task_id: str, label: str | None, split: object) -> Any:
+def record(number: int, *, task_id: str, label: str | None, split: str) -> Any:
     body = f"Body for issue {number}."
     row = {
         "example_id": f"ghpr:{number}",
@@ -91,7 +84,7 @@ def test_normal_predictions_produce_full_report() -> None:
     assert built.coverage == pytest.approx(0.8)
     assert built.error_rate == pytest.approx(0.25)
     assert built.counts_by_label == {"bug": 3, "feature": 1}
-    assert built.baseline_error_rate == pytest.approx(0.25)
+    assert built.baseline_error_rate is None
 
     slices = {item.key: item for item in built.slices}
     assert slices["A"].total == 2 and slices["A"].accepted == 2
@@ -168,33 +161,47 @@ def test_accepted_outcome_missing_ground_truth_label_is_rejected() -> None:
 @pytest.mark.requirement("M-008")
 @pytest.mark.requirement("R-013")
 def test_baseline_is_computed_over_the_identical_held_out_cases_as_the_router() -> None:
-    """R-013 "same held-out cases across baselines": ``build_eval_report`` takes
-    one ``outcomes`` list and derives both the router's own ``error_rate`` and
-    the ``baseline_error_rate`` from the exact same ``accepted`` subset of it
-    -- there is no separate baseline run, no separate case selection, and so
-    no way for the two to silently drift onto different held-out cases.
-
-    This is proven, not merely asserted, by independently recomputing the
-    majority-class baseline from the *same* accepted records the report
-    reports ``accepted``/``error_rate`` for, and checking they agree; and by
-    showing that adding an extra abstained (non-held-out-for-scoring)
-    example changes neither number, because it never enters either
-    computation's shared input.
-    """
     outcomes = fixture_outcomes()
-    built = build_eval_report(outcomes)
+    # Frozen predictions intentionally differ from the test-set majority.
+    baseline = {o.record.example_id: "feature" for o in outcomes}
+    built = build_eval_report(outcomes, baseline_predictions=baseline)
+    assert built.accepted == 4
+    assert built.error_rate == pytest.approx(0.25)
+    assert built.baseline_error_rate == pytest.approx(0.75)
+    with pytest.raises(EvalReportError, match="every example"):
+        build_eval_report(outcomes, baseline_predictions={})
 
-    accepted_records = [o for o in outcomes if o.status == "predicted"]
-    assert built.accepted == len(accepted_records)
-    labels = [o.record.label for o in accepted_records]
-    majority = Counter(labels).most_common(1)[0][1]
-    independently_recomputed_baseline = (len(labels) - majority) / len(labels)
-    assert built.baseline_error_rate == pytest.approx(independently_recomputed_baseline)
 
-    extra_abstained = Outcome(
-        record(99, task_id="A", label="feature", split=SplitRole.FINAL_TEST), "abstained", None
-    )
-    with_extra = build_eval_report([*outcomes, extra_abstained])
-    assert with_extra.accepted == built.accepted
-    assert with_extra.error_rate == pytest.approx(built.error_rate)
-    assert with_extra.baseline_error_rate == pytest.approx(built.baseline_error_rate)
+@pytest.mark.requirement("M-008")
+def test_missing_independent_baseline_and_zero_accept_slice_are_unavailable() -> None:
+    outcomes = fixture_outcomes()
+    outcomes[-1] = replace(outcomes[-1], record=replace(outcomes[-1].record, task_id="C"))
+    report = build_eval_report(outcomes)
+    assert report.baseline_error_rate is None
+    assert next(s for s in report.slices if s.key == "C").error_rate is None
+
+
+@pytest.mark.requirement("M-008")
+def test_duplicate_examples_cannot_inflate_evaluation_counts() -> None:
+    outcomes = fixture_outcomes()
+    with pytest.raises(EvalReportError, match="duplicate"):
+        build_eval_report([*outcomes, outcomes[0]])
+
+
+@pytest.mark.requirement("M-008")
+@pytest.mark.parametrize(
+    "status,label", [("unknown", "bug"), ("predicted", None), ("abstained", "bug")]
+)
+def test_invalid_prediction_status_and_label_combinations_are_rejected(
+    status: Any, label: Any
+) -> None:
+    with pytest.raises(EvalReportError):
+        Outcome(fixture_outcomes()[0].record, status, label)
+
+
+@pytest.mark.requirement("M-008")
+def test_invalid_interval_counts_and_unsupported_slice_fail_closed() -> None:
+    with pytest.raises(EvalReportError):
+        wilson_interval(2, 1)
+    with pytest.raises(EvalReportError, match="slice"):
+        build_eval_report(fixture_outcomes(), slice_field="body")

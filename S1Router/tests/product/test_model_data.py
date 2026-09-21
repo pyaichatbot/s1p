@@ -6,16 +6,10 @@ import hashlib
 import json
 
 import pytest
+import s1m.data.review as _review
+import s1m.data.split as _split
+import s1m.data.validation as _validation
 
-_review = pytest.importorskip(
-    "s1m.data.review", reason="M-002/M-003 data-curation module not yet implemented"
-)
-_split = pytest.importorskip(
-    "s1m.data.split", reason="M-002/M-003 data-curation module not yet implemented"
-)
-_validation = pytest.importorskip(
-    "s1m.data.validation", reason="M-002/M-003 data-curation module not yet implemented"
-)
 ReviewError = _review.ReviewError
 build_review_packet = _review.build_review_packet
 merge_review_submissions = _review.merge_review_submissions
@@ -180,3 +174,63 @@ def test_assignment_is_deterministic_and_role_accessor_rejects_fit_leakage() -> 
     assert [item.split for item in first] == [item.split for item in second]
     assert set(item.split for item in first) <= set(SplitRole)
     assert all(item.split not in {SplitRole.CALIBRATION, SplitRole.FINAL_TEST} for item in first)
+
+
+@pytest.mark.requirement("M-003")
+def test_group_lineage_cannot_cross_repositories_and_splits() -> None:
+    records = validate_rows(
+        [
+            row(101, group_id="shared", repository="a", split="train"),
+            row(102, group_id="shared", repository="b", split="final_test"),
+        ]
+    )
+    with pytest.raises(SplitLeakageError, match="group_id"):
+        validate_splits(records)
+
+
+@pytest.mark.requirement("M-002")
+@pytest.mark.parametrize(
+    "field",
+    ["label", "label_origin", "adjudication_status", "reviewer_ids", "split", "duplicate_cluster"],
+)
+def test_malformed_ingestion_values_fail_with_typed_validation(field: str) -> None:
+    with pytest.raises(DataValidationError):
+        validate_rows([row(103, **{field: {"invalid": "value"}})])
+
+
+@pytest.mark.requirement("M-003")
+def test_reviewed_groups_reach_all_roles_without_lineage_leakage() -> None:
+    records = validate_rows(
+        [
+            row(
+                i,
+                repository=f"repo-{i}",
+                group_id=f"group-{i}",
+                label="bug",
+                label_origin="human_independent",
+                reviewer_ids=["a", "b"],
+                adjudication_status="agreed",
+            )
+            for i in range(1000, 1100)
+        ]
+    )
+    assigned = assign_splits(records, seed="reviewed-fixture")
+    validate_splits(assigned)
+    assert {r.split for r in assigned} == set(SplitRole)
+    weak = validate_rows(
+        [row(i, repository=f"repo-{i}", group_id=f"group-{i}") for i in range(1000, 1100)]
+    )
+    assert {r.split for r in assign_splits(weak, seed="reviewed-fixture")} == {
+        SplitRole.TRAIN,
+        SplitRole.VALIDATION,
+    }
+    # Mixed label origins must never silently split one group across roles.
+    with pytest.raises(SplitLeakageError):
+        assign_splits([*records, *weak], seed="reviewed-fixture")
+
+
+@pytest.mark.requirement("M-002")
+def test_unknown_split_and_non_text_reviewer_are_rejected() -> None:
+    for changes in ({"split": "production"}, {"reviewer_ids": [True]}):
+        with pytest.raises(DataValidationError):
+            validate_rows([row(104, **changes)])

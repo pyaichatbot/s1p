@@ -114,7 +114,7 @@ def test_readiness_rejects_schema_only_smoke_result() -> None:
 def test_submit_is_rejected_before_ready_and_after_shutdown_atomically() -> None:
     worker, written, _ = service(lambda raw: {"schema_version": "1.0"})
     assert worker.submit(frame("early")) is False
-    assert written[-1]["error"]["code"] == "worker_not_ready"
+    assert written[-1]["error"]["code"] == "cancelled"
     worker.start()
     assert worker.submit(frame("accepted")) is True
     worker.shutdown()
@@ -144,7 +144,6 @@ def test_worker_rate_limit_persists_for_service_lifetime_with_fake_clock() -> No
         "queue_full",
         "rate_limited",
         "invalid_request",
-        "worker_not_ready",
         "cancelled",
         "provider_unavailable",
     }

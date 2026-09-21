@@ -85,3 +85,13 @@ The owner-directed [layered delivery and NFR matrix](../engineering/layered-deli
 ## Mandatory code-quality constraints
 
 Owner-directed [CQ-001–CQ-004](../engineering/code-quality.md) apply to this product: SOLID responsibilities and dependency inversion, narrow substitutable ports, fewer than 250 physical lines per production source file, and justified patterns without speculative abstraction. Mechanical size/import checks run in every local gate; independent semantic review records design rationale and behavioral evidence. Resource bounds and scalability follow the progressive NFR design; a small file alone proves neither. Source decision: [ADR-015](../decisions.md).
+
+## Existing-runtime review clarification (2026-09-21)
+
+Owner scope: review and repair implemented behavior; FEAT-007/008 remain deferred.
+R-009/R-011 rejection paths must use registered reason codes, bound echoed identifiers,
+reject deeply nested input without crashing, and invoke output callbacks outside admission
+locks. SIGTERM must not acquire worker locks inside its handler; normal and exceptional
+stdio exit must drain accepted work and restore the previous handler. R-006 failures
+finishing an attempt must clear any tentative automatic answer. These are hardening
+acceptance scenarios for existing controls, not new model lifecycle features.

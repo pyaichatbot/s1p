@@ -177,3 +177,28 @@ def test_concurrent_attempts_report_ticket_local_costs() -> None:
         "0.100000",
     ]
     assert ledger.spent_microdollars == 200_000
+
+
+@pytest.mark.requirement("R-006")
+def test_completion_failure_cannot_leave_an_automatic_answer() -> None:
+    class BrokenCompletion(CircuitBreaker):
+        def record_success(self, permit: Any) -> bool:
+            raise RuntimeError("completion failed")
+
+    item = _item()
+    attempt(
+        lambda: 0.0,
+        lambda: 0.0,
+        BrokenCompletion("gateway", clock=lambda: 0.0),
+        RemoteProvider("gateway"),
+        {},
+        {"support": [{"id": "bug"}]},
+        item,
+        MonotonicDeadline.from_timeout_ms(1000, clock=lambda: 0.0),
+        BudgetLedger(max_cost_usd="1.000000"),
+        {"remote_auto_accept": True},
+    )
+    assert item["status"] == "review_required"
+    assert item["selected_id"] is None
+    assert item["prediction"] is None
+    assert item["reason"] == "provider_unavailable"

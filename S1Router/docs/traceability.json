@@ -99,7 +99,14 @@
       "tests/product/test_model_data.py::test_ingestion_reports_example_ids_for_missing_rights_and_invalid_label",
       "tests/product/test_model_data.py::test_review_packet_is_deterministic_and_hides_weak_source_label",
       "tests/product/test_model_data.py::test_two_independent_reviews_produce_human_label_and_preserve_origin",
-      "tests/product/test_model_data.py::test_disagreement_requires_explicit_adjudication"
+      "tests/product/test_model_data.py::test_disagreement_requires_explicit_adjudication",
+      "tests/product/test_model_data.py::test_malformed_ingestion_values_fail_with_typed_validation[label]",
+      "tests/product/test_model_data.py::test_malformed_ingestion_values_fail_with_typed_validation[label_origin]",
+      "tests/product/test_model_data.py::test_malformed_ingestion_values_fail_with_typed_validation[adjudication_status]",
+      "tests/product/test_model_data.py::test_malformed_ingestion_values_fail_with_typed_validation[reviewer_ids]",
+      "tests/product/test_model_data.py::test_malformed_ingestion_values_fail_with_typed_validation[split]",
+      "tests/product/test_model_data.py::test_malformed_ingestion_values_fail_with_typed_validation[duplicate_cluster]",
+      "tests/product/test_model_data.py::test_unknown_split_and_non_text_reviewer_are_rejected"
     ]
   },
   "M-003": {
@@ -112,7 +119,9 @@
     "tests": [
       "tests/product/test_model_data.py::test_split_validation_rejects_repository_and_duplicate_lineage_overlap",
       "tests/product/test_model_data.py::test_split_validation_rejects_near_duplicate_and_template_overlap",
-      "tests/product/test_model_data.py::test_assignment_is_deterministic_and_role_accessor_rejects_fit_leakage"
+      "tests/product/test_model_data.py::test_assignment_is_deterministic_and_role_accessor_rejects_fit_leakage",
+      "tests/product/test_model_data.py::test_group_lineage_cannot_cross_repositories_and_splits",
+      "tests/product/test_model_data.py::test_reviewed_groups_reach_all_roles_without_lineage_leakage"
     ]
   },
   "M-004": {
@@ -120,7 +129,7 @@
     "code": [
       "packages/model/src/s1m/reporting/training_report.py"
     ],
-    "status": "implemented",
+    "status": "planned",
     "tests": [
       "tests/product/test_training_report.py::test_valid_inputs_produce_report_with_all_six_identity_fields",
       "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[code_digest-not-a-digest]",
@@ -167,7 +176,7 @@
       "packages/model/src/s1m/calibration/fit.py",
       "packages/model/src/s1m/calibration/__init__.py"
     ],
-    "status": "implemented",
+    "status": "planned",
     "tests": [
       "tests/product/test_calibration_fit.py::test_final_test_role_record_raises_loudly_and_is_not_silently_dropped",
       "tests/product/test_calibration_fit.py::test_train_and_validation_role_records_also_cannot_reach_fit[train]",
@@ -182,7 +191,7 @@
     "code": [
       "packages/model/src/s1m/reporting/eval_report.py"
     ],
-    "status": "implemented",
+    "status": "planned",
     "tests": [
       "tests/product/test_eval_report.py::test_normal_predictions_produce_full_report",
       "tests/product/test_eval_report.py::test_wilson_confidence_interval_matches_hand_computed_bounds",
@@ -191,7 +200,14 @@
       "tests/product/test_eval_report.py::test_zero_accepted_predictions_raises_rather_than_reporting_trivially",
       "tests/product/test_eval_report.py::test_mixed_split_roles_are_rejected",
       "tests/product/test_eval_report.py::test_non_holdout_split_role_is_rejected",
-      "tests/product/test_eval_report.py::test_accepted_outcome_missing_ground_truth_label_is_rejected"
+      "tests/product/test_eval_report.py::test_accepted_outcome_missing_ground_truth_label_is_rejected",
+      "tests/product/test_eval_report.py::test_baseline_is_computed_over_the_identical_held_out_cases_as_the_router",
+      "tests/product/test_eval_report.py::test_missing_independent_baseline_and_zero_accept_slice_are_unavailable",
+      "tests/product/test_eval_report.py::test_duplicate_examples_cannot_inflate_evaluation_counts",
+      "tests/product/test_eval_report.py::test_invalid_prediction_status_and_label_combinations_are_rejected[unknown-bug]",
+      "tests/product/test_eval_report.py::test_invalid_prediction_status_and_label_combinations_are_rejected[predicted-None]",
+      "tests/product/test_eval_report.py::test_invalid_prediction_status_and_label_combinations_are_rejected[abstained-bug]",
+      "tests/product/test_eval_report.py::test_invalid_interval_counts_and_unsupported_slice_fail_closed"
     ]
   },
   "M-009": {
@@ -238,7 +254,7 @@
     "code": [
       "packages/model/src/s1m/artifacts/release_identity.py"
     ],
-    "status": "implemented",
+    "status": "planned",
     "tests": [
       "tests/product/test_release_identity.py::test_same_artifact_identity_reused_under_one_release_key_is_idempotent",
       "tests/product/test_release_identity.py::test_changed_precision_artifact_cannot_reuse_the_same_release_key",
@@ -251,7 +267,7 @@
     "code": [
       "packages/model/src/s1m/reporting/model_card.py"
     ],
-    "status": "implemented",
+    "status": "planned",
     "tests": [
       "tests/product/test_model_card.py::test_fully_valid_card_builds_and_serializes_deterministically",
       "tests/product/test_model_card.py::test_missing_limitations_is_rejected",
@@ -400,7 +416,8 @@
       "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[max_cost_usd--1]",
       "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[providers-value4]",
       "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[providers-value5]",
-      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[unknown-1]"
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[unknown-1]",
+      "tests/product/test_attempt_controls.py::test_completion_failure_cannot_leave_an_automatic_answer"
     ]
   },
   "R-007": {
@@ -456,7 +473,14 @@
       "tests/product/test_worker_cli.py::test_smoke_test_passes_for_a_real_installed_bundle",
       "tests/product/test_worker_cli.py::test_worker_cli_parses_identically_to_sdk_and_separates_stdout_from_stderr",
       "tests/product/test_worker_cli.py::test_worker_cli_rejects_oversized_frame_without_crashing",
-      "tests/product/test_worker_cli.py::test_worker_cli_reports_start_failure_without_crashing"
+      "tests/product/test_worker_cli.py::test_worker_cli_reports_start_failure_without_crashing",
+      "tests/product/test_worker_hardening.py::test_rejection_never_crashes_or_echoes_invalid_identifiers[deep]",
+      "tests/product/test_worker_hardening.py::test_rejection_never_crashes_or_echoes_invalid_identifiers[long-id]",
+      "tests/product/test_worker_hardening.py::test_rejection_never_crashes_or_echoes_invalid_identifiers[invalid-id]",
+      "tests/product/test_worker_hardening.py::test_rejection_callback_can_read_worker_metrics",
+      "tests/product/test_worker_hardening.py::test_stdio_restores_signal_handler_and_shuts_down_on_read_failure[False]",
+      "tests/product/test_worker_hardening.py::test_stdio_restores_signal_handler_and_shuts_down_on_read_failure[True]",
+      "tests/product/test_worker_hardening.py::test_sigterm_handler_is_installed_before_readiness_is_published"
     ]
   },
   "R-010": {
@@ -518,7 +542,7 @@
       "packages/router/src/s1router/ports/providers.py",
       "packages/model/src/s1m/reporting/eval_report.py"
     ],
-    "status": "implemented",
+    "status": "planned",
     "tests": [
       "tests/product/test_provider_outage_and_rollback.py::test_sustained_provider_outage_opens_the_breaker_and_stops_dispatch",
       "tests/product/test_provider_outage_and_rollback.py::test_router_recovers_after_provider_outage_cooldown_with_no_incorrect_accept",

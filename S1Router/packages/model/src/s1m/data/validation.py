@@ -85,14 +85,27 @@ def _invalid_fields(row: dict[str, object]) -> list[str]:
         if not isinstance(value, str) or not value:
             invalid.append(field)
     label = row.get("label")
-    if label is not None and label not in LABELS:
+    if label is not None and (not isinstance(label, str) or label not in LABELS):
         invalid.append("label")
-    if row.get("label_origin") not in LABEL_ORIGINS:
+    if not isinstance(row.get("label_origin"), str) or row["label_origin"] not in LABEL_ORIGINS:
         invalid.append("label_origin")
-    if row.get("adjudication_status") not in ADJUDICATION_STATUSES:
+    if (
+        not isinstance(row.get("adjudication_status"), str)
+        or row["adjudication_status"] not in ADJUDICATION_STATUSES
+    ):
         invalid.append("adjudication_status")
-    if not isinstance(row.get("reviewer_ids"), list):
+    reviewers = row.get("reviewer_ids")
+    if not isinstance(reviewers, list) or any(
+        not isinstance(item, str) or not item for item in reviewers
+    ):
         invalid.append("reviewer_ids")
+    for field in ("split", "duplicate_cluster", "near_duplicate_cluster", "template_cluster"):
+        value = row.get(field)
+        if value is not None and (not isinstance(value, str) or not value):
+            invalid.append(field)
+    split = row.get("split")
+    if isinstance(split, str) and split not in {"train", "validation", "calibration", "final_test"}:
+        invalid.append("split")
     return invalid
 
 

@@ -7,12 +7,10 @@ is rejected rather than silently mixed. A zero-example set, or a set with
 zero accepted (non-abstained) predictions, raises rather than producing a
 misleadingly-empty or trivially-perfect report ("zero accepts fails").
 
-Confidence intervals use the Wilson score interval for a binomial
-proportion (the standard method for a bounded error-rate estimate; it does
-not require the normal approximation to hold at small ``n`` the way a naive
-Wald interval does). The baseline comparison is the trivial majority-class
-predictor computed from the same accepted, labeled examples -- never a
-hardcoded number.
+Wilson intervals are descriptive, not the exact one-sided release bound.
+An optional frozen baseline prediction map is supplied by the caller; this
+helper never learns a majority class from evaluation labels. Its provenance
+still needs independent review. No baseline supplied means no comparison.
 """
 
 from __future__ import annotations
@@ -64,7 +62,7 @@ class SliceMetrics:
     total: int
     accepted: int
     correct: int
-    error_rate: float
+    error_rate: float | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -77,7 +75,7 @@ class EvalReport:
     error_ci: WilsonInterval
     counts_by_label: dict[str, int]
     slices: tuple[SliceMetrics, ...]
-    baseline_error_rate: float
+    baseline_error_rate: float | None
 
 
 def wilson_interval(successes: int, total: int, z: float = _Z95) -> WilsonInterval:
@@ -117,19 +115,17 @@ def _slice_metrics(outcomes: tuple[Outcome, ...], field: str) -> tuple[SliceMetr
         group = [o for o in outcomes if str(getattr(o.record, field)) == key]
         accepted = [o for o in group if o.status == "predicted"]
         correct = sum(1 for o in accepted if o.predicted_label == o.record.label)
-        rate = (len(accepted) - correct) / len(accepted) if accepted else 0.0
+        rate = (len(accepted) - correct) / len(accepted) if accepted else None
         result.append(SliceMetrics(key, len(group), len(accepted), correct, rate))
     return tuple(result)
 
 
-def _majority_baseline_error_rate(accepted: list[Outcome]) -> float:
-    labels = [outcome.record.label for outcome in accepted]
-    assert all(label is not None for label in labels)
-    _, majority_count = Counter(labels).most_common(1)[0]
-    return (len(labels) - majority_count) / len(labels)
-
-
-def build_eval_report(outcomes: list[Outcome], *, slice_field: str = "task_id") -> EvalReport:
+def build_eval_report(
+    outcomes: list[Outcome],
+    *,
+    slice_field: str = "task_id",
+    baseline_predictions: dict[str, str] | None = None,
+) -> EvalReport:
     """Build an ``EvalReport`` from evaluated outcomes, or raise loudly.
 
     Raises ``EvalReportError`` for: an empty ``outcomes`` list; outcomes that
@@ -140,11 +136,25 @@ def build_eval_report(outcomes: list[Outcome], *, slice_field: str = "task_id") 
     if not outcomes:
         raise EvalReportError("zero examples: cannot evaluate an empty set")
     items = tuple(outcomes)
+    ids = [item.record.example_id for item in items]
+    if len(set(ids)) != len(ids):
+        raise EvalReportError("duplicate evaluation example")
+    if slice_field not in {"task_id", "language", "repository"}:
+        raise EvalReportError("unsupported slice field")
     split = _declared_split(items)
     accepted = [outcome for outcome in items if outcome.status == "predicted"]
     if not accepted:
         raise EvalReportError("zero accepts: cannot report on a set with no accepted predictions")
     _require_ground_truth(accepted)
+    baseline_error = None
+    if baseline_predictions is not None:
+        if set(baseline_predictions) != set(ids) or any(
+            not isinstance(label, str) or not label for label in baseline_predictions.values()
+        ):
+            raise EvalReportError("baseline must provide frozen predictions for every example")
+        baseline_error = sum(
+            baseline_predictions[o.record.example_id] != o.record.label for o in accepted
+        ) / len(accepted)
     correct = sum(1 for outcome in accepted if outcome.predicted_label == outcome.record.label)
     errors = len(accepted) - correct
     labels = (outcome.record.label for outcome in accepted)
@@ -160,5 +170,5 @@ def build_eval_report(outcomes: list[Outcome], *, slice_field: str = "task_id") 
         error_ci=wilson_interval(errors, len(accepted)),
         counts_by_label=counts_by_label,
         slices=_slice_metrics(items, slice_field),
-        baseline_error_rate=_majority_baseline_error_rate(accepted),
+        baseline_error_rate=baseline_error,
     )

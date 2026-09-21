@@ -115,7 +115,8 @@ def test_all_calibration_role_records_fit_and_the_binding_gates_predictions() ->
     assert isinstance(binding, CalibrationBinding)
     assert binding.provenance == PROVENANCE
 
-    acceptance = pytest.importorskip("s1router.domain.acceptance")
+    import s1router.domain.acceptance as acceptance
+
     profile = acceptance.CalibrationProfile.create(
         binding.provenance,
         dataset_hash=binding.dataset_hash,

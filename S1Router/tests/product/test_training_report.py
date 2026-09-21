@@ -6,10 +6,8 @@ import hashlib
 from typing import Any
 
 import pytest
+import s1m.reporting.training_report as _training_report
 
-_training_report = pytest.importorskip(
-    "s1m.reporting.training_report", reason="M-004 reporting module not yet implemented"
-)
 TrainingReportError = _training_report.TrainingReportError
 build_training_report = _training_report.build_training_report
 

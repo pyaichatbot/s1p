@@ -88,3 +88,13 @@ The owner-directed [layered delivery and NFR matrix](../engineering/layered-deli
 ## Mandatory code-quality constraints
 
 Owner-directed [CQ-001–CQ-004](../engineering/code-quality.md) apply to this product: SOLID responsibilities and dependency inversion, narrow substitutable ports, fewer than 250 physical lines per production source file, and justified patterns without speculative abstraction. Mechanical size/import checks run in every local gate; independent semantic review records design rationale and behavioral evidence. Resource bounds and scalability follow the progressive NFR design; a small file alone proves neither. Source decision: [ADR-015](../decisions.md).
+
+## Review clarification for existing helpers (2026-09-21)
+
+The owner deferred FEAT-007/008. Existing data/report helpers are partial infrastructure,
+not a completed training/calibration/evaluation pipeline. M-003 must reject cross-split
+`group_id` lineage and fail assignment rather than return a leaking partition. M-008
+must not fit a baseline on evaluation labels: absent independently frozen predictions,
+report the comparison as unavailable. A slice with no accepts has undefined error,
+not zero error. Wilson intervals are descriptive and do not satisfy the exact one-sided
+release bound above. These corrections do not authorize implementing the deferred layers.

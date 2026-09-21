@@ -1,25 +1,10 @@
-"""R-013: measured router overhead -- the routing/acceptance-gating logic's
-own added latency, isolated from provider/model inference time.
-
-The drill runs the real ``Router.decide()`` core decision path many times
-against a deterministic fake local provider that does zero simulated work
-(no sleep, no I/O, no network), so any measured wall-clock time is entirely
-the router's own admission, budget, breaker, acceptance-gating and audit
-bookkeeping -- not inference. It reports a real, executable measurement via
-``time.perf_counter()`` and asserts it stays under a documented, generous
-budget, so a severe regression (an accidental O(n^2) pass, a busy-wait, a
-runaway retry loop) would fail the suite, while ordinary machine noise does
-not produce a flaky failure.
-
-Reuses the ``FlakyLocalProvider``/``FakeClock`` test doubles already defined
-for the R-013 outage/rollback drills, rather than inventing a parallel one.
-"""
+"""R-013 router-only single-question latency gate; not model quality evidence."""
 
 from __future__ import annotations
 
 import json
+import platform
 import time
-from statistics import median
 
 import pytest
 from s1_contracts.request import example_request
@@ -29,18 +14,8 @@ from test_provider_outage_and_rollback import Audit, FakeClock, FlakyLocalProvid
 
 pytestmark = [pytest.mark.behavioral, pytest.mark.integration]
 
-#: Wall-clock time budget per Router.decide() call, in milliseconds.
-#:
-#: This is deliberately generous, not a tight SLA: it is pure in-process
-#: Python logic (policy lookup, budget/breaker bookkeeping, JSON parsing of
-#: a tiny request, one dict-audit append) with zero real I/O and zero
-#: simulated provider latency in this drill. On ordinary developer/CI
-#: hardware this consistently measures under 2ms; 50ms leaves roughly a
-#: 25x margin so the assertion catches an actual severe regression (a
-#: runaway loop, an accidental O(n^2) pass, a busy-wait) instead of flaking
-#: on shared/loaded CI runners.
-MAX_MEDIAN_OVERHEAD_MS = 50.0
-ITERATIONS = 200
+MAX_P95_OVERHEAD_MS = 10.0
+ITERATIONS = 10_000
 
 
 def _router() -> Router:
@@ -75,8 +50,20 @@ def test_router_decision_path_overhead_stays_within_budget() -> None:
     measure_decide_overhead_ms(router, raw, 5)  # warm up interpreter/import caches
     samples = measure_decide_overhead_ms(router, raw, ITERATIONS)
 
-    overhead = median(samples)
-    assert overhead < MAX_MEDIAN_OVERHEAD_MS, (
-        f"router overhead regressed: median {overhead:.3f}ms over {ITERATIONS} calls "
-        f"exceeds the {MAX_MEDIAN_OVERHEAD_MS}ms budget for pure in-process routing logic"
-    )
+    ordered = sorted(samples)
+    p95 = ordered[int(0.95 * ITERATIONS) - 1]
+    measurement = {
+        "iterations": ITERATIONS,
+        "concurrency": 1,
+        "payload": "example_request: one Choice question; identical input each call",
+        "payload_bytes": len(raw),
+        "machine": platform.platform(),
+        "python": platform.python_version(),
+        "provider": "zero-work fake",
+        "warmup_calls": 5,
+        "p50_ms": ordered[ITERATIONS // 2 - 1],
+        "p95_ms": p95,
+        "p99_ms": ordered[int(0.99 * ITERATIONS) - 1],
+    }
+    print(json.dumps(measurement, sort_keys=True))
+    assert p95 <= MAX_P95_OVERHEAD_MS, measurement

@@ -15,6 +15,7 @@ REVIEWED_LABEL_ORIGINS = frozenset({"human_independent", "human_adjudicated"})
 #: leakage; the remaining cluster fields catch near-duplicate and
 #: template-family leakage (``None`` values are not clustered).
 LEAKAGE_FIELDS = (
+    "group_id",
     "repository",
     "content_hash",
     "duplicate_cluster",
@@ -81,4 +82,6 @@ def assign_splits(records: list[Record], seed: str) -> list[Record]:
     review) are ever eligible for ``CALIBRATION`` or ``FINAL_TEST``, since
     those roles require adjudicated ground truth rather than weak labels.
     """
-    return [replace(record, split=_role_for(record, seed)) for record in records]
+    assigned = [replace(record, split=_role_for(record, seed)) for record in records]
+    validate_splits(assigned)
+    return assigned

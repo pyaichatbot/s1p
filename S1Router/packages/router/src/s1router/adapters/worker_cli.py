@@ -25,7 +25,7 @@ from s1_contracts.request import example_request, parse_request
 
 from s1router.adapters.audit import FileAuditSink
 from s1router.adapters.local import LocalProvider
-from s1router.adapters.worker import WorkerService, build_handle
+from s1router.adapters.worker import MAX_FRAME_BYTES, WorkerService, build_handle
 from s1router.adapters.worker_stream import frames
 from s1router.application.engine import Router
 from s1router.domain.policy import PolicySnapshot, default_policy
@@ -95,26 +95,32 @@ def run(
         log=log,
         clock=clock,
     )
-    try:
-        worker.start()
-    except (ValueError, OSError, TimeoutError) as exc:
-        log(f"worker_start_failed:{type(exc).__name__}")
-        return 4
     stopping = threading.Event()
 
     def stop(*_: Any) -> None:
+        # A handler may interrupt admission while its lock is held.
         stopping.set()
-        worker.shutdown()
 
-    signal.signal(signal.SIGTERM, stop)
+    previous = signal.signal(signal.SIGTERM, stop)
     processor = threading.Thread(target=lambda: _drain(worker), daemon=True)
-    processor.start()
-    for frame in frames(sys.stdin.buffer, 512 * 1024, stopping):
-        if stopping.is_set():
-            break
-        worker.submit(frame)
-    worker.shutdown()
-    processor.join()
+    started = False
+    try:
+        try:
+            worker.start()
+        except (ValueError, OSError, TimeoutError) as exc:
+            log(f"worker_start_failed:{type(exc).__name__}")
+            return 4
+        processor.start()
+        started = True
+        for frame in frames(sys.stdin.buffer, MAX_FRAME_BYTES, stopping):
+            if stopping.is_set():
+                break
+            worker.submit(frame)
+    finally:
+        worker.shutdown()
+        if started:
+            processor.join()
+        signal.signal(signal.SIGTERM, previous)
     log("worker_stopped")
     return 0
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "review_reason": "R-013 provider outage/rollback/overhead drills implemented and verified",
+  "review_reason": "Reviewed final verification record in docs/engineering/review-2026-09-21.md: green foundation and behavioral tests, explicit red product/release gates; no changed acceptance thresholds.",
   "sha256": {
     ".agents/skills/s1-delivery-loop/SKILL.md": "cfca7d56cbc31b63029923286f795d07a8be95c72b97b38daf6ca9bc13d5954c",
     ".agents/skills/s1-implement/SKILL.md": "ca72cc954e4a2721b8b0224093e66e7683026f3349b06e3c16c8ef09d57e2c73",
@@ -19,7 +19,7 @@
     "Makefile": "a0739d1f4da8a7ea44768d6146a1b15db39a9678a8f48784ab4f9a4f57b6e1bc",
     "docs/README.md": "78a06cf71485011ad5f12cd6436affc4b724a630f65920b8124f31be2ecd7a8d",
     "docs/contracts/decision-v1.md": "5aef552c42e77753833229b242d074db368bb4ec0ad667214a6912f957a8050c",
-    "docs/decisions.md": "81631d1d3b23ce7d5bb3bd191d6d065030c8b9a4d03d3d3049413b6ebd4e9b86",
+    "docs/decisions.md": "d44880436eede5b239ec571a5b79a07acb7cc89960e163ed16dfe83c621c5d63",
     "docs/engineering/code-quality.md": "bab2f6f625b01bf5d92d239bec928684884b7399b4ebd84df78d49eb94160365",
     "docs/engineering/delivery.md": "eb51eb640caf68e894e429d04ced3a33d98d7af9f14c982efe9d525cb095e8e5",
     "docs/engineering/full-router-plan.md": "a083446b6c71cb7aa98070df86d40a6a9e085465a74417a060c785e3aa5517fb",
@@ -33,13 +33,13 @@
     "docs/research/jev-projects-comparison.md": "f404f67c6c22ec56c139a2db09c15d1701c6ec8ffb3faba0d0f300a6a20c1575",
     "docs/s1m/design.md": "20286e1a6f0cd901c04ad5bf8b39f5c324af6123b88ac7ce248799d217f9ab1b",
     "docs/s1m/intent.md": "f407da13dd2d6d79fe01daef8970415193292446884ed6c2473cf1736f18ed03",
-    "docs/s1m/spec.md": "21daff01d01c656abba8ef5ec1c17c40e0e9577a3de502ec06fd68c56c3e0168",
+    "docs/s1m/spec.md": "cfba857a9ef04a41e498e54b9c8ead059d9ed2138383f5990a93c4e79119ff13",
     "docs/s1router/design.md": "ffa317589991b4b0e172f868e645a822dac0ab6da0d6ca672f389ac3175710a9",
     "docs/s1router/intent.md": "170b420e7c7b1299fecf972bb335a4c7a924ac229fac3cdb13048bc836e82f3d",
-    "docs/s1router/spec.md": "198322012d1f3a01a9e3145f78b0194f880b6cf047d8db2977761aa1cc0e32fc",
+    "docs/s1router/spec.md": "3e51a7a6119f6ac54a753cdf51bae3a730da6dc880a382d46e6d55e3e5dbebfd",
     "docs/sources/README.md": "47622640b68c4e5d0200428ee3c8595b99209345b9f7c12c8f677ce6516e89e7",
     "docs/sources/conversation.md": "0d85d2e2d3fb0c0c991c43d186920a39d874c51d8a4d093b970eb3a7442d7263",
-    "docs/traceability.json": "953de4def951be1d16ef79b97a14b45765589e39b58955715d4ded32bd67393a",
+    "docs/traceability.json": "b5176390ad44e07e9eab1f0923eb1e8ea6abbee5c96911e578d7df9494a67550",
     "pyproject.toml": "a90a838dcc51a6522c867435aa88b94127d1af0b0d77b0f0e7e89e02ea1a9884",
     "uv.lock": "cbeeba0a3f8ef33d78d6f52944c41fdefd4deaef4999538876299d3baa870db3"
   }
