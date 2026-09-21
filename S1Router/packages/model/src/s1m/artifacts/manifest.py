@@ -65,7 +65,7 @@ def load(root: Path) -> tuple[str, dict[str, Any], dict[str, bytes]]:
             or manifest["contract_version"] != "1.0"
             or manifest["precision"] != "fp64"
             or manifest["runtime"] != "python-stdlib-v1"
-            or manifest["status"] != "experimental_fixture"
+            or manifest["status"] not in ("experimental_fixture", "experimental_candidate")
         ):
             raise ValueError("incompatible_runtime")
         task = RegisteredTask.create(manifest["task"])

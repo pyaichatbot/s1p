@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 737,
+  "revision": 741,
   "next_id": 24,
   "items": [
     {
@@ -1193,15 +1193,37 @@
       "dependencies": [
         "FEAT-005"
       ],
-      "owner": null,
-      "status": "backlog",
-      "stages": {},
+      "owner": "s1-delivery-coordinator",
+      "status": "in_progress",
+      "stages": {
+        "plan": "Implement real offline train/calibrate/evaluate/export primitives and controlled candidate states; preserve human-reviewed release gates."
+      },
       "evidence": [],
       "history": [
         {
           "at": "2026-09-20T07:09:21.313Z",
           "action": "create",
           "note": "L4 S1M data, training and evaluation pipeline"
+        },
+        {
+          "at": "2026-09-21T06:09:48.269Z",
+          "action": "move:ready",
+          "note": "Owner now authorizes missing lifecycle code; scope docs/engineering/lifecycle-completion.md; production promotion remains blocked on evidence."
+        },
+        {
+          "at": "2026-09-21T06:09:48.354Z",
+          "action": "assign",
+          "note": "s1-delivery-coordinator"
+        },
+        {
+          "at": "2026-09-21T06:09:48.440Z",
+          "action": "move:in_progress",
+          "note": ""
+        },
+        {
+          "at": "2026-09-21T06:09:48.518Z",
+          "action": "stage:plan",
+          "note": "Implement real offline train/calibrate/evaluate/export primitives and controlled candidate states; preserve human-reviewed release gates."
         }
       ]
     },

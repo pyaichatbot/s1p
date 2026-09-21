@@ -9,7 +9,12 @@ from typing import Any
 
 import pytest
 from s1_contracts.request import definition_hash, example_request
-from s1m.calibration.fit import CalibrationBinding, CalibrationFitError, fit
+from s1m.calibration.fit import (
+    CalibrationBinding,
+    CalibrationFitError,
+    apply_temperature,
+    fit,
+)
 from s1m.data.split import SplitRole
 from s1m.data.validation import Record, validate_rows
 
@@ -156,3 +161,44 @@ def test_all_calibration_role_records_fit_and_the_binding_gates_predictions() ->
             acceptance.accept(question, prediction, stale_profile, now=100)
             == "calibration_mismatch"
         )
+
+
+@pytest.mark.requirement("M-007")
+def test_calibration_fit_estimates_bounded_temperature_from_reviewed_logits() -> None:
+    records = records_with_role(SplitRole.CALIBRATION)
+    logits = ((8.0, 0.0, 0.0, 0.0), (0.0, 8.0, 0.0, 0.0), (0.0, 0.0, 8.0, 0.0))
+    labels = (1, 1, 2)
+
+    binding = fit_calibration_with_scores(records, logits, labels)
+
+    assert binding.temperature is not None
+    assert 0.05 <= binding.temperature <= 100.0
+    assert binding.fitting_method == "temperature_scaling.v1"
+    assert binding.nll_after is not None and binding.nll_before is not None
+    assert binding.nll_after < binding.nll_before
+    assert apply_temperature((8.0, 0.0, 0.0, 0.0), binding.temperature)[0] == pytest.approx(
+        8.0 / binding.temperature
+    )
+
+
+def fit_calibration_with_scores(
+    records: list[Record], logits: tuple[tuple[float, ...], ...], labels: tuple[int, ...]
+) -> CalibrationBinding:
+    return fit(
+        records,
+        PROVENANCE,
+        dataset_hash="d" * 64,
+        expires_at=200,
+        probability=0.9,
+        margin=0.1,
+        logits=logits,
+        labels=labels,
+    )
+
+
+@pytest.mark.requirement("M-007")
+def test_temperature_fit_rejects_unreviewed_calibration_records() -> None:
+    records = [replace(records_with_role(SplitRole.CALIBRATION)[0], label_origin="source_weak")]
+
+    with pytest.raises(CalibrationFitError, match="reviewed"):
+        fit_calibration_with_scores(records, ((2.0, 0.0, 0.0, 0.0),), (0,))
