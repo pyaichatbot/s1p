@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-20",
+  "scope": "L1 acceptance and tooling only",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.12.9",
+  "node": "22.22.0",
+  "release_id": "1d4e12d1c28f7bee6dbec08ea22b91bb1ba83c983d9f2091f87b15b3ef636c52",
+  "checks": {
+    "l1": {
+      "line_percent": 96.69260700389106,
+      "branch_percent": 91.7910447761194,
+      "statements": 514,
+      "branches": 134,
+      "pytest_count": 20
+    },
+    "tooling": {
+      "line_percent": 98.80597014925372,
+      "branch_percent": 94.0,
+      "statements": 335,
+      "branches": 100,
+      "pytest_count": 69
+    },
+    "kanban": {
+      "test_count": 5,
+      "line_percent": 100,
+      "branch_percent": 92.42,
+      "command": "node --test --experimental-test-coverage --test-coverage-include=scripts/kanban.mjs --test-coverage-lines=90 --test-coverage-branches=85 tests/kanban.test.mjs"
+    }
+  },
+  "commands": {
+    "make deploy-local": 0,
+    "make local-smoke": 0,
+    "make local-status": 0,
+    "make ci": 2
+  },
+  "full_product_failure": "R-001 is not implemented; broad R/M requirements remain planned",
+  "evidence_sha256": {
+    "docs/layers/l1/evidence/observation.json": "85752412b09c99ac43291ac620d7e299dcb8f89905f5560e912ad91c11a4d4be",
+    "docs/layers/l1/evidence/maintenance.json": "f2acb2832d092f0639b158467acdb7b83b928b5ae1447adb824459787520b7f2"
+  }
+}

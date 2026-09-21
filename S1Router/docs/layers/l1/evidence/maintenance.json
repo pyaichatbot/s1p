@@ -1,0 +1,53 @@
+{
+  "scope": "controlled synthetic drill; not production incident",
+  "before": {
+    "status": "attention",
+    "sample_count": 0,
+    "counts": {
+      "answered_rule": 0,
+      "error": 0,
+      "invalid_request": 0,
+      "review_required": 0
+    },
+    "processing_p95_ms": null,
+    "corrupt_records": 1,
+    "findings": [
+      "telemetry_corrupt"
+    ],
+    "window_start": null,
+    "window_end": null,
+    "retention_seconds": 604800,
+    "bounded_history": true,
+    "history_complete": false,
+    "history_scope": "retained_segments_only",
+    "possible_gaps": [
+      "rotation",
+      "retention"
+    ]
+  },
+  "after": {
+    "status": "insufficient_data",
+    "sample_count": 1,
+    "counts": {
+      "answered_rule": 1,
+      "error": 0,
+      "invalid_request": 0,
+      "review_required": 0
+    },
+    "processing_p95_ms": 1.0,
+    "corrupt_records": 0,
+    "findings": [],
+    "window_start": 1789888262.365379,
+    "window_end": 1789888262.365379,
+    "retention_seconds": 604800,
+    "bounded_history": true,
+    "history_complete": false,
+    "history_scope": "retained_segments_only",
+    "possible_gaps": [
+      "rotation",
+      "retention"
+    ]
+  },
+  "preserved_corrupt_bytes": 28,
+  "incident_recorded": true
+}

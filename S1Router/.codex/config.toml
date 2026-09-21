@@ -1,0 +1,4 @@
+# Project-scoped roles inherit the selected model and permissions.
+# Source: https://learn.chatgpt.com/docs/agent-configuration/subagents
+[agents]
+max_concurrent_threads_per_session = 3

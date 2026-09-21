@@ -1,0 +1,529 @@
+{
+  "L1-001": {
+    "acceptance": "docs/layers/l1/spec.md#l1-001",
+    "code": [
+      "packages/contracts/src/s1_contracts/request.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_domain.py::test_valid_request_and_invalid_input_boundaries",
+      "tests/product/test_local_domain.py::test_question_support_and_constraint_validation",
+      "tests/product/test_local_domain.py::test_bool_and_ordinal_shapes_can_be_valid_but_unsupported"
+    ]
+  },
+  "L1-002": {
+    "acceptance": "docs/layers/l1/spec.md#l1-002",
+    "code": [
+      "packages/router/src/s1router/domain/rules.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_domain.py::test_rules_answer_only_explicit_metadata_and_preserve_abstention",
+      "tests/product/test_local_domain.py::test_task_identity_and_mutation_do_not_change_registry",
+      "tests/product/test_local_domain.py::test_registered_state_schema_before_rule",
+      "tests/product/test_local_deployment.py::test_domain_has_no_io_or_ml_imports"
+    ]
+  },
+  "L1-003": {
+    "acceptance": "docs/layers/l1/spec.md#l1-003",
+    "code": [
+      "packages/router/src/s1router/domain/admission.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_domain.py::test_token_bucket_refill_backward_clock_and_invalid_config"
+    ]
+  },
+  "L1-004": {
+    "acceptance": "docs/layers/l1/spec.md#l1-004",
+    "code": [
+      "packages/router/src/s1router/telemetry.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_operations.py::test_private_bounded_events_and_minimum_sample_alerts",
+      "tests/product/test_local_operations.py::test_corrupt_telemetry_is_actionable_and_incidents_are_deduplicated",
+      "tests/product/test_local_operations.py::test_retention_invalid_events_and_empty_observation",
+      "tests/product/test_local_operations.py::test_hostile_telemetry_is_reported",
+      "tests/product/test_local_operations.py::test_incidents_deduplicate_each_finding_and_disclose_history"
+    ]
+  },
+  "L1-005": {
+    "acceptance": "docs/layers/l1/spec.md#l1-005",
+    "code": [
+      "packages/router/src/s1router/cli.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_operations.py::test_cli_json_exit_codes_and_redaction",
+      "tests/product/test_local_operations.py::test_cli_io_failure_cannot_return_an_answer",
+      "tests/product/test_local_operations.py::test_invalid_release_configuration",
+      "tests/product/test_local_deployment.py::test_installed_launcher_and_operator_commands"
+    ]
+  },
+  "L1-006": {
+    "acceptance": "docs/layers/l1/spec.md#l1-006",
+    "code": [
+      "packages/router/src/s1router/deployment.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_deployment.py::test_verified_activation_idempotence_and_rollback",
+      "tests/product/test_local_deployment.py::test_tampered_or_missing_release_never_activates",
+      "tests/product/test_local_deployment.py::test_rollback_recovers_corrupt_active",
+      "tests/product/test_local_deployment.py::test_installed_launcher_and_operator_commands"
+    ]
+  },
+  "M-001": {
+    "acceptance": "Renamed/reordered options or altered instructions without new identity are rejected",
+    "code": [
+      "packages/contracts/src/s1_contracts/capabilities.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_task_identity.py::test_identical_redefinition_of_same_identity_is_idempotent",
+      "tests/product/test_task_identity.py::test_reordered_support_options_under_same_identity_is_rejected",
+      "tests/product/test_task_identity.py::test_renamed_support_option_under_same_identity_is_rejected",
+      "tests/product/test_task_identity.py::test_altered_instructions_under_same_identity_is_rejected",
+      "tests/product/test_task_identity.py::test_new_task_version_for_altered_content_is_accepted"
+    ]
+  },
+  "M-002": {
+    "acceptance": "Missing source/license/review status and invalid labels fail ingestion with example IDs",
+    "code": [
+      "packages/model/src/s1m/data/validation.py",
+      "packages/model/src/s1m/data/review.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_model_data.py::test_ingestion_reports_example_ids_for_missing_rights_and_invalid_label",
+      "tests/product/test_model_data.py::test_review_packet_is_deterministic_and_hides_weak_source_label",
+      "tests/product/test_model_data.py::test_two_independent_reviews_produce_human_label_and_preserve_origin",
+      "tests/product/test_model_data.py::test_disagreement_requires_explicit_adjudication"
+    ]
+  },
+  "M-003": {
+    "acceptance": "Exact/near-duplicate/template-group overlap and repository/issue leakage fail split validation",
+    "code": [
+      "packages/model/src/s1m/data/split.py",
+      "packages/model/src/s1m/data/validation.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_model_data.py::test_split_validation_rejects_repository_and_duplicate_lineage_overlap",
+      "tests/product/test_model_data.py::test_split_validation_rejects_near_duplicate_and_template_overlap",
+      "tests/product/test_model_data.py::test_assignment_is_deterministic_and_role_accessor_rejects_fit_leakage"
+    ]
+  },
+  "M-004": {
+    "acceptance": "Code, data, environment, seed, optimizer and selected checkpoint digests appear in report",
+    "code": [
+      "packages/model/src/s1m/reporting/training_report.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_training_report.py::test_valid_inputs_produce_report_with_all_six_identity_fields",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[code_digest-not-a-digest]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[data_digest-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[checkpoint_digest-gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[checkpoint_digest-]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[environment_id-]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[environment_id-   ]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[seed-]",
+      "tests/product/test_training_report.py::test_missing_or_malformed_field_raises_typed_error[optimizer-]",
+      "tests/product/test_training_report.py::test_report_serialization_is_deterministic_across_calls"
+    ]
+  },
+  "M-005": {
+    "acceptance": "Shape, support, normalization, expected-value and P(true) invariants pass property tests",
+    "code": [
+      "packages/model/src/s1m/inference/linear.py",
+      "packages/model/src/s1m/inference/runtime.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_model.py::test_extreme_logits_remain_finite_and_ties_are_stable",
+      "tests/product/test_local_model.py::test_sparse_logits_produce_real_typed_distributions[bool]",
+      "tests/product/test_local_model.py::test_sparse_logits_produce_real_typed_distributions[choice]",
+      "tests/product/test_local_model.py::test_sparse_logits_produce_real_typed_distributions[score]",
+      "tests/product/test_model_numerics.py::test_softmax_support_normalization_order_and_translation_invariance"
+    ]
+  },
+  "M-006": {
+    "acceptance": "Tokenizer sees complete rendering; no hidden truncation; zero model calls for rejected cases",
+    "code": [
+      "packages/contracts/src/s1_contracts/capabilities.py",
+      "packages/model/src/s1m/inference/runtime.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_model.py::test_full_rendering_and_unsupported_task_never_call_model",
+      "tests/product/test_local_model.py::test_unsupported_task_reports_actual_artifact_identity"
+    ]
+  },
+  "M-007": {
+    "acceptance": "Modified precision/weights/rubric/preprocessor invalidates calibration; final-test input cannot reach fit",
+    "code": [
+      "packages/model/src/s1m/calibration/fit.py",
+      "packages/model/src/s1m/calibration/__init__.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_calibration_fit.py::test_final_test_role_record_raises_loudly_and_is_not_silently_dropped",
+      "tests/product/test_calibration_fit.py::test_train_and_validation_role_records_also_cannot_reach_fit[train]",
+      "tests/product/test_calibration_fit.py::test_train_and_validation_role_records_also_cannot_reach_fit[validation]",
+      "tests/product/test_calibration_fit.py::test_empty_record_set_is_rejected_rather_than_binding_vacuously",
+      "tests/product/test_calibration_fit.py::test_all_calibration_role_records_fit_and_the_binding_gates_predictions",
+      "tests/product/test_local_model.py::test_malformed_manifest_never_activates[precision]"
+    ]
+  },
+  "M-008": {
+    "acceptance": "Report errors/coverage, counts, confidence intervals, slices and baseline comparisons; zero accepts fails",
+    "code": [
+      "packages/model/src/s1m/reporting/eval_report.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_eval_report.py::test_normal_predictions_produce_full_report",
+      "tests/product/test_eval_report.py::test_wilson_confidence_interval_matches_hand_computed_bounds",
+      "tests/product/test_eval_report.py::test_wilson_interval_rejects_non_positive_total",
+      "tests/product/test_eval_report.py::test_zero_examples_raises_rather_than_reporting_empty",
+      "tests/product/test_eval_report.py::test_zero_accepted_predictions_raises_rather_than_reporting_trivially",
+      "tests/product/test_eval_report.py::test_mixed_split_roles_are_rejected",
+      "tests/product/test_eval_report.py::test_non_holdout_split_role_is_rejected",
+      "tests/product/test_eval_report.py::test_accepted_outcome_missing_ground_truth_label_is_rejected"
+    ]
+  },
+  "M-009": {
+    "acceptance": "Missing/tampered file, traversal path and incompatible contract are rejected",
+    "code": [
+      "packages/model/src/s1m/artifacts/bundle.py",
+      "packages/model/src/s1m/artifacts/manifest.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_model.py::test_idempotent_install_and_redirected_release_directory_fail_closed",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[array]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[duplicate]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[fields]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[labels]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[license]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[symlink]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[term]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[tokenizer]",
+      "tests/product/test_local_model.py::test_invalid_payloads_rejected_even_with_matching_hash[vector]",
+      "tests/product/test_local_model.py::test_invalid_upgrade_preserves_active_and_verified_rollback",
+      "tests/product/test_local_model.py::test_malformed_manifest_never_activates[calibration]",
+      "tests/product/test_local_model.py::test_malformed_manifest_never_activates[files]",
+      "tests/product/test_local_model.py::test_malformed_manifest_never_activates[nan]",
+      "tests/product/test_local_model.py::test_malformed_manifest_never_activates[precision]",
+      "tests/product/test_local_model.py::test_malformed_manifest_never_activates[traversal]"
+    ]
+  },
+  "M-010": {
+    "acceptance": "No inference download/network access; verified prior artifact reloads after failed upgrade",
+    "code": [
+      "packages/model/src/s1m/artifacts/bundle.py",
+      "packages/model/src/s1m/inference/runtime.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_model.py::test_idempotent_install_and_redirected_release_directory_fail_closed",
+      "tests/product/test_local_model.py::test_invalid_upgrade_preserves_active_and_verified_rollback",
+      "tests/product/test_local_model.py::test_missing_artifact_fails_offline"
+    ]
+  },
+  "M-011": {
+    "acceptance": "A changed-precision artifact cannot reuse release status or acceptance evidence",
+    "code": [
+      "packages/model/src/s1m/artifacts/release_identity.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_release_identity.py::test_same_artifact_identity_reused_under_one_release_key_is_idempotent",
+      "tests/product/test_release_identity.py::test_changed_precision_artifact_cannot_reuse_the_same_release_key",
+      "tests/product/test_release_identity.py::test_changed_precision_artifact_is_accepted_under_an_explicit_new_release_key",
+      "tests/product/test_release_identity.py::test_invalid_reference_value_is_rejected"
+    ]
+  },
+  "M-012": {
+    "acceptance": "Cards describe task envelope, lineage, limitations, data, hardware and measured evidence",
+    "code": [
+      "packages/model/src/s1m/reporting/model_card.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_model_card.py::test_fully_valid_card_builds_and_serializes_deterministically",
+      "tests/product/test_model_card.py::test_missing_limitations_is_rejected",
+      "tests/product/test_model_card.py::test_empty_measured_evidence_is_rejected",
+      "tests/product/test_model_card.py::test_missing_hardware_field_is_rejected",
+      "tests/product/test_model_card.py::test_data_section_with_zero_records_is_rejected",
+      "tests/product/test_model_card.py::test_data_section_without_license_information_is_rejected",
+      "tests/product/test_model_card.py::test_task_envelope_missing_required_fields_is_rejected",
+      "tests/product/test_model_card.py::test_lineage_missing_required_fields_is_rejected"
+    ]
+  },
+  "M-013": {
+    "acceptance": "Reference laptop measurements and approved statistical report exist; unsupported lanes are labeled experimental",
+    "code": [],
+    "status": "planned",
+    "tests": []
+  },
+  "R-001": {
+    "acceptance": "Malformed probability, missing option, duplicate question, NaN and unknown fields fail; zero provider calls on bad request",
+    "code": [
+      "packages/contracts/src/s1_contracts/prediction.py",
+      "packages/contracts/src/s1_contracts/request.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_prediction_acceptance.py::test_abstention_and_derived_quantity_validation",
+      "tests/product/test_prediction_acceptance.py::test_canonical_predictions_and_owned_output[bool]",
+      "tests/product/test_prediction_acceptance.py::test_canonical_predictions_and_owned_output[choice]",
+      "tests/product/test_prediction_acceptance.py::test_canonical_predictions_and_owned_output[score]",
+      "tests/product/test_prediction_acceptance.py::test_derived_probability_cannot_escape_unit_interval_within_tolerance",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[bool]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[calibration]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[derived]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[huge]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[infinity]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[missing]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[nan]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[order]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[provenance]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[question]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[reason]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[selected]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[sum]",
+      "tests/product/test_prediction_acceptance.py::test_untrusted_output_rejected[unknown]",
+      "tests/product/test_router_engine.py::test_bad_request_no_io_and_rule_audit_redaction"
+    ]
+  },
+  "R-002": {
+    "acceptance": "Same input/snapshot gives same routing; equal-priority conflicting matches require review",
+    "code": [
+      "packages/router/src/s1router/domain/policy.py",
+      "packages/router/src/s1router/cli.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_cli_model_and_policy.py::test_policy_validate_accepts_the_default_profile_and_reports_its_reference",
+      "tests/product/test_cli_model_and_policy.py::test_policy_validate_rejects_an_invalid_profile_with_exit_two",
+      "tests/product/test_cli_model_and_policy.py::test_policy_validate_reports_unreadable_file_with_exit_four",
+      "tests/product/test_cli_model_and_policy.py::test_policy_validate_rejects_malformed_json_with_exit_two_not_a_crash",
+      "tests/product/test_router_engine.py::test_bad_request_no_io_and_rule_audit_redaction",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[allow_remote-1]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[allowed_data_classes-value8]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[allowed_endpoints-value7]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[audit_required-False]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[deadline_ms-0]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[deadline_ms-True]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[max_cost_usd--1]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[providers-value4]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[providers-value5]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[unknown-1]",
+      "tests/product/test_routing_policy.py::test_policy_endpoints_lists_rules_and_noncanonical_input",
+      "tests/product/test_routing_policy.py::test_policy_snapshot_and_conflicting_rules"
+    ]
+  },
+  "R-003": {
+    "acceptance": "Unsupported inputs abstain without local inference, even if a mocked provider would return 0.999",
+    "code": [
+      "packages/router/src/s1router/domain/capabilities.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_routing_policy.py::test_full_definition_and_rendered_token_limits_before_inference",
+      "tests/product/test_routing_policy.py::test_capability_count_limits_and_schema",
+      "tests/product/test_routing_policy.py::test_capability_bad_definitions_and_token_counts",
+      "tests/product/test_local_provider.py::test_real_local_provider_preserves_raw_abstention_and_pinned_artifact"
+    ]
+  },
+  "R-004": {
+    "acceptance": "Below/equal/above threshold tested; Bool false-confidence and Score exact-bin semantics tested",
+    "code": [
+      "packages/router/src/s1router/domain/acceptance.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_prediction_acceptance.py::test_trusted_calibration_identity_expiry_and_mandatory_review",
+      "tests/product/test_prediction_acceptance.py::test_equal_threshold_bool_false_and_exact_score_bin",
+      "tests/product/test_prediction_acceptance.py::test_invalid_profiles_fail_and_direct_construction_cannot_bypass",
+      "tests/product/test_prediction_acceptance.py::test_exact_margin_ties_and_unusable_predictions",
+      "tests/product/test_prediction_acceptance.py::test_profile_identity_cannot_retain_mutable_containers",
+      "tests/product/test_local_provider.py::test_real_local_provider_preserves_raw_abstention_and_pinned_artifact"
+    ]
+  },
+  "R-005": {
+    "acceptance": "Maximum one attempt per provider per question; disabled remote yields no outbound calls",
+    "code": [
+      "packages/router/src/s1router/application/engine.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_router_engine.py::test_remote_permissions_budget_and_finite_fallback"
+    ]
+  },
+  "R-006": {
+    "acceptance": "Concurrent attempts cannot overspend reserved limit; timeout/cancellation settles ledger and ignores late answer",
+    "code": [
+      "packages/router/src/s1router/application/budget.py",
+      "packages/router/src/s1router/application/attempt.py",
+      "packages/router/src/s1router/adapters/local.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_attempt_controls.py::test_cleanup_clock_failure_does_not_mask_provider_timeout",
+      "tests/product/test_attempt_controls.py::test_concurrent_attempts_report_ticket_local_costs",
+      "tests/product/test_attempt_controls.py::test_settlement_cleanup_releases_budget_when_breaker_clock_fails",
+      "tests/product/test_attempt_controls.py::test_start_clock_failure_releases_reservation_and_permit",
+      "tests/product/test_execution_controls.py::test_budget_rejects_bad_values_without_mutating_accounting",
+      "tests/product/test_execution_controls.py::test_budget_reservation_is_atomic_under_concurrency",
+      "tests/product/test_execution_controls.py::test_budget_settlement_and_cancellation_are_single_use",
+      "tests/product/test_execution_controls.py::test_deadline_rejects_overflow_without_unhandled_numeric_error",
+      "tests/product/test_execution_controls.py::test_deadline_uses_injected_monotonic_clock_at_boundary",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[1]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[None]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[True]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[inf]",
+      "tests/product/test_execution_controls.py::test_time_bounds_reject_values_that_overflow_runtime_arithmetic",
+      "tests/product/test_local_provider.py::test_local_process_timeout_is_terminated_and_reaped",
+      "tests/product/test_local_provider.py::test_worker_protocol_rejects_invalid_frames_and_returns_one_prediction",
+      "tests/product/test_router_engine.py::test_remote_permissions_budget_and_finite_fallback",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[allow_remote-1]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[allowed_data_classes-value8]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[allowed_endpoints-value7]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[audit_required-False]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[deadline_ms-0]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[deadline_ms-True]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[max_cost_usd--1]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[providers-value4]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[providers-value5]",
+      "tests/product/test_routing_policy.py::test_invalid_policy_is_rejected[unknown-1]"
+    ]
+  },
+  "R-007": {
+    "acceptance": "Mixed accepted/unsupported/timeout batch returns complete per-question results without duplicate work",
+    "code": [
+      "packages/router/src/s1router/application/engine.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_router_engine.py::test_audit_failure_blocks_automatic_answers_and_question_order",
+      "tests/product/test_router_engine.py::test_remote_permissions_budget_and_finite_fallback"
+    ]
+  },
+  "R-008": {
+    "acceptance": "No state/secret in default logs; replay reports missing original inputs; mandatory audit failure blocks automatic answers",
+    "code": [
+      "packages/router/src/s1router/application/engine.py",
+      "packages/router/src/s1router/ports/providers.py",
+      "packages/router/src/s1router/application/replay.py",
+      "packages/router/src/s1router/cli.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_router_engine.py::test_audit_failure_blocks_automatic_answers_and_question_order",
+      "tests/product/test_router_engine.py::test_bad_request_no_io_and_rule_audit_redaction",
+      "tests/product/test_replay.py::test_replay_verifies_matching_input_and_policy",
+      "tests/product/test_replay.py::test_replay_never_claims_reproduction_from_the_hash_alone",
+      "tests/product/test_replay.py::test_load_record_rejects_a_malformed_record",
+      "tests/product/test_replay.py::test_cli_replay_reports_full_verification_with_exit_zero",
+      "tests/product/test_replay.py::test_cli_replay_reports_missing_original_input_with_exit_three",
+      "tests/product/test_replay.py::test_cli_replay_reports_policy_mismatch_with_exit_three",
+      "tests/product/test_replay.py::test_cli_replay_rejects_a_malformed_record_with_exit_two",
+      "tests/product/test_replay.py::test_cli_replay_reports_missing_files_with_exit_four"
+    ]
+  },
+  "R-009": {
+    "acceptance": "CLI parses identically to SDK; frame bounds, queue-full, readiness, shutdown and stderr separation tested",
+    "code": [
+      "packages/router/src/s1router/adapters/worker.py",
+      "packages/router/src/s1router/adapters/worker_cli.py",
+      "packages/router/src/s1router/adapters/audit.py",
+      "packages/router/src/s1router/cli.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_worker_service.py::test_readiness_only_after_smoke_test_succeeds",
+      "tests/product/test_worker_service.py::test_oversized_frame_rejected_without_reaching_handler",
+      "tests/product/test_worker_service.py::test_queue_full_is_deterministic_and_never_duplicates_work",
+      "tests/product/test_worker_service.py::test_shutdown_drains_pending_frames_then_stops",
+      "tests/product/test_worker_service.py::test_handler_failure_is_isolated_and_never_logs_raw_state",
+      "tests/product/test_worker_service.py::test_default_handle_delegates_identically_to_sdk",
+      "tests/product/test_worker_cli.py::test_build_router_composes_real_provider_under_its_own_policy_profile",
+      "tests/product/test_worker_cli.py::test_smoke_test_passes_for_a_real_installed_bundle",
+      "tests/product/test_worker_cli.py::test_worker_cli_parses_identically_to_sdk_and_separates_stdout_from_stderr",
+      "tests/product/test_worker_cli.py::test_worker_cli_rejects_oversized_frame_without_crashing",
+      "tests/product/test_worker_cli.py::test_worker_cli_reports_start_failure_without_crashing"
+    ]
+  },
+  "R-010": {
+    "acceptance": "Corrupt/partial artifact never becomes active; offline inference never downloads",
+    "code": [
+      "packages/model/src/s1m/artifacts/bundle.py",
+      "packages/model/src/s1m/artifacts/manifest.py",
+      "packages/router/src/s1router/adapters/local.py",
+      "packages/router/src/s1router/cli.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_local_provider.py::test_real_local_provider_preserves_raw_abstention_and_pinned_artifact",
+      "tests/product/test_local_provider.py::test_worker_protocol_rejects_invalid_frames_and_returns_one_prediction",
+      "tests/product/test_cli_model_and_policy.py::test_model_install_activates_a_verified_bundle_and_reports_its_reference",
+      "tests/product/test_cli_model_and_policy.py::test_model_install_rejects_a_corrupt_bundle_with_exit_two",
+      "tests/product/test_cli_model_and_policy.py::test_model_install_reports_missing_source_with_exit_two",
+      "tests/product/test_cli_model_and_policy.py::test_model_install_reports_unusable_root_with_exit_four"
+    ]
+  },
+  "R-011": {
+    "acceptance": "Fake clock verifies open/half-open/closed transitions; no high-cardinality or sensitive metric labels",
+    "code": [
+      "packages/router/src/s1router/application/breaker.py",
+      "packages/router/src/s1router/application/clock.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_execution_controls.py::test_breaker_allows_only_one_concurrent_half_open_probe",
+      "tests/product/test_execution_controls.py::test_breaker_ignores_late_completion_and_releases_nontransient_probe",
+      "tests/product/test_execution_controls.py::test_breaker_rejects_invalid_numeric_configuration",
+      "tests/product/test_execution_controls.py::test_breaker_transitions_closed_open_half_open_and_closes_on_probe",
+      "tests/product/test_execution_controls.py::test_forged_permit_cannot_consume_the_real_probe",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[1]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[None]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[True]",
+      "tests/product/test_execution_controls.py::test_invalid_clock_values_fail_closed[inf]",
+      "tests/product/test_execution_controls.py::test_time_bounds_reject_values_that_overflow_runtime_arithmetic"
+    ]
+  },
+  "R-012": {
+    "acceptance": "No tool execution or review exemption; injected state cannot alter permissions, rules, endpoints or thresholds",
+    "code": [
+      "packages/router/src/s1router/domain/policy.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_router_engine.py::test_bad_request_no_io_and_rule_audit_redaction",
+      "tests/product/test_routing_policy.py::test_policy_snapshot_and_conflicting_rules"
+    ]
+  },
+  "R-013": {
+    "acceptance": "Same held-out cases across baselines; measured router overhead; rollback and provider outage drills pass",
+    "code": [
+      "packages/router/src/s1router/application/engine.py",
+      "packages/router/src/s1router/application/attempt.py",
+      "packages/router/src/s1router/application/breaker.py",
+      "packages/router/src/s1router/ports/providers.py",
+      "packages/model/src/s1m/reporting/eval_report.py"
+    ],
+    "status": "implemented",
+    "tests": [
+      "tests/product/test_provider_outage_and_rollback.py::test_sustained_provider_outage_opens_the_breaker_and_stops_dispatch",
+      "tests/product/test_provider_outage_and_rollback.py::test_router_recovers_after_provider_outage_cooldown_with_no_incorrect_accept",
+      "tests/product/test_router_overhead.py::test_router_decision_path_overhead_stays_within_budget",
+      "tests/product/test_eval_report.py::test_baseline_is_computed_over_the_identical_held_out_cases_as_the_router"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+[project]
+name = "s1-foundation"
+version = "0.1.0"
+description = "Specification and quality tooling for S1Router and S1M"
+requires-python = "==3.12.*"
+dependencies = []
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+  "pytest==9.1.1",
+  "ruff==0.16.8",
+  "mypy==2.3.1",
+  "coverage==7.16.1",
+  "pytest-cov==7.1.0",
+  "pytest-socket==0.8.1",
+  "hypothesis==6.168.0",
+  "pip-audit==2.10.1",
+]
+
+[tool.ruff]
+extend-exclude = [".local"]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["scripts", "tests"]
+exclude = ["^reports/", "^.venv/"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config --disable-socket -ra"
+filterwarnings = ["error"]
+markers = [
+  "requirement(id): stable R-xxx or M-xxx specification requirement",
+  "behavioral: externally observable product acceptance behavior",
+  "contract: wire/API and provider compatibility",
+  "architecture: executable dependency boundary rules",
+  "integration: real subsystem integration with tiny offline fixtures",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["scripts"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90
